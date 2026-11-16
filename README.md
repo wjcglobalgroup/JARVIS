@@ -11,7 +11,7 @@ The executive command center for **WJC GLOBAL GROUP**, powered by a direct integ
 - **Repository:** [wjcglobalgroup/JARVIS](https://github.com/wjcglobalgroup/JARVIS)
 - **Local Console:** [http://127.0.0.1:8730](http://127.0.0.1:8730)
 
-> **Roster accuracy:** This README documents the intended organizational responsibilities. Agent IDs shown below are the configured/conventional IDs currently documented for known agents; the KYLEXINE agent is marked planned and must not be treated as deployed until confirmed in the OpenClaw runtime.
+> **Roster accuracy:** This README documents the intended organizational responsibilities. Agent IDs shown below are the configured/conventional IDs currently documented for known agents; the Kyle agent for Kaixin Transport is marked planned and must not be treated as deployed until confirmed in the OpenClaw runtime.
 
 ---
 
@@ -102,13 +102,13 @@ Dave (video production and QA)
 June (publishing and social media operations)
 ```
 
-### KYLEXINE Traveler
+### Kaixin Transport
 
 | Agent | Agent ID | Status | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- | :--- |
-| **Kylexine** | Pending runtime confirmation | **Planned** | **Travel & Van Rental Customer Service Agent** | Supports KYLEXINE Traveler inquiries and reservations. Communicates in Tagalog/Filipino by default; handles Nissan NV350 van rental inquiries for 15–18 passengers with a driver (no self-drive); gathers booking date, number of days, pickup and drop-off locations, and trip details; supports outings, swimming trips, tours, airport transfers, weddings, and baptisms. |
+| **Kyle** | Pending runtime confirmation | **Planned** | **Transport & Van Rental Customer Service Agent** | Supports Kaixin Transport inquiries and reservations. Communicates in Tagalog/Filipino by default; handles Nissan NV350 van rental inquiries for 15–18 passengers with a driver (no self-drive); gathers booking date, number of days, pickup and drop-off locations, and trip details; supports outings, swimming trips, tours, airport transfers, weddings, and baptisms. |
 
-**Deployment note:** Kylexine is documented as a planned agent. Do not assign an active OpenClaw agent ID or report it as operational until it has been created and verified in the runtime.
+**Deployment note:** Kyle is documented as the planned agent for Kaixin Transport. Do not assign an active OpenClaw agent ID or report the agent as operational until it has been created and verified in the runtime.
 
 ---
 
