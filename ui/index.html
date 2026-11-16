@@ -3,8 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="jarvis-token" content="__JARVIS_TOKEN__">
-<title>JARVIS · Hermes Mission Control</title>
+<title>WJC GLOBAL GROUP — JARVIS COMMAND CENTER</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -16,125 +15,362 @@
 <div class="ambient a1"></div><div class="ambient a2"></div>
 
 <header class="topbar">
-  <div class="sigil"><span></span></div>
+  <div class="sigil" id="sigilCore"><span></span></div>
   <div class="brandlock">
-    <div class="overline">Hermes Agent Direct Channel</div>
+    <div class="overline">WJC GLOBAL GROUP · EXECUTIVE OFFICE</div>
     <div class="mega">JARVIS</div>
+    <div class="subline">COMMAND CENTER · GROUP COO</div>
   </div>
+
+  <nav class="navtabs">
+    <button class="navtab active" data-view="chat"><i>⚡</i>Chat</button>
+    <button class="navtab" data-view="agents"><i>👥</i>Agents</button>
+    <button class="navtab" data-view="missions"><i>🎯</i>Missions</button>
+    <button class="navtab" data-view="activity"><i>📜</i>Activity</button>
+    <button class="navtab" data-view="system"><i>📊</i>System</button>
+    <button class="navtab" data-view="settings"><i>⚙️</i>Settings</button>
+  </nav>
+
   <div class="pills">
-    <div class="pill ok"><i></i><span id="top-gw">Gateway: probing</span></div>
-    <div class="pill"><i></i><span id="top-profile">Profile: default</span></div>
-    <div class="pill warn"><i></i><span id="top-voice">Voice: browser</span></div>
+    <div class="pill ok" id="pill-gw"><i></i><span id="top-gw">Gateway: Probing</span></div>
+    <div class="pill" id="pill-owner"><i></i><span>Willy — Chairman & CEO</span></div>
+    <div class="pill ok" id="pill-agent"><i></i><span id="top-agent">Agent: Jarvis (COO)</span></div>
+    <div class="pill warn" id="pill-voice"><i></i><span id="top-voice">Voice: Browser</span></div>
   </div>
 </header>
 
-<div class="hud">
-  <section class="col left glass">
-    <header class="colhead">
-      <div class="h">Command<br>Matrix</div>
-      <div class="sub">Click to execute · payload commands stay armed</div>
-    </header>
+<!-- MAIN VIEWPORT -->
+<main class="view-container">
 
-    <div class="cmds" id="cmds">
-      <button class="cmd" data-cmd="/new"><b>/new</b><span>Fresh thread</span></button>
-      <button class="cmd" data-cmd="/goal"><b>/goal</b><span>Standing objective</span></button>
-      <button class="cmd" data-cmd="/tools"><b>/tools</b><span>Hermes tool status</span></button>
-      <button class="cmd" data-cmd="/browser"><b>/browser</b><span>Chrome / browser op</span></button>
-      <button class="cmd" data-cmd="/background"><b>/background</b><span>Async mission</span></button>
-      <button class="cmd" data-cmd="/mission"><b>/mission</b><span>Mission queue</span></button>
-      <button class="cmd" data-cmd="/personality"><b>/personality</b><span>Voice/tone overlay</span></button>
-      <button class="cmd" data-cmd="/commands"><b>/commands</b><span>Show commands</span></button>
+  <!-- VIEW 1: CHAT & REACTOR HUD -->
+  <div class="view active" id="view-chat">
+    <div class="hud">
+      <!-- LEFT: Command Matrix & Uplink -->
+      <section class="col left glass">
+        <header class="colhead">
+          <div class="h">Command<br>Matrix</div>
+          <div class="sub">Executive Operations & Routing</div>
+        </header>
+
+        <div class="cmds" id="cmds">
+          <button class="cmd" data-cmd="/new"><b>/new</b><span>Fresh Session</span></button>
+          <button class="cmd" data-cmd="/agents"><b>/agents</b><span>Agent Roster</span></button>
+          <button class="cmd" data-cmd="/sessions"><b>/sessions</b><span>Session Index</span></button>
+          <button class="cmd" data-cmd="/goal"><b>/goal</b><span>Standing Goal</span></button>
+          <button class="cmd" data-cmd="/mission"><b>/mission</b><span>Mission Queue</span></button>
+          <button class="cmd" data-cmd="/background"><b>/background</b><span>Async Task</span></button>
+          <button class="cmd" data-cmd="/browser"><b>/browser</b><span>Browser Automate</span></button>
+          <button class="cmd" data-cmd="/status"><b>/status</b><span>Gateway State</span></button>
+        </div>
+
+        <div class="agent-selector-box">
+          <div class="lbl">Direct Agent Routing</div>
+          <select id="agentSelect" class="agent-dropdown">
+            <option value="main" selected>🤖 Jarvis — Group COO</option>
+          </select>
+        </div>
+
+        <div class="uplink">
+          <div class="lbl">Executive Uplink</div>
+          <div class="field">
+            <textarea id="input" rows="4" spellcheck="false" placeholder="Transmit executive instruction to Jarvis. Voice and slash commands supported. (Ctrl+Enter to send)"></textarea>
+          </div>
+          <div class="tip" id="tip">Ready for transmission. Press <b>Voice</b> for hands-free continuous briefing.</div>
+        </div>
+      </section>
+
+      <!-- CENTER: 3D Reactor & Streamed Response -->
+      <section class="col center">
+        <div class="reactor" id="reactor">
+          <svg viewBox="0 0 520 520" id="core" aria-label="JARVIS reactor visualizer">
+            <defs>
+              <radialGradient id="orb" cx="50%" cy="45%" r="55%">
+                <stop offset="0%" stop-color="#ffffff"/><stop offset="25%" stop-color="#7ff7ff"/>
+                <stop offset="58%" stop-color="#16bfd8"/><stop offset="100%" stop-color="#02111b"/>
+              </radialGradient>
+              <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="6" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <circle class="ring rr1" cx="260" cy="260" r="242"/>
+            <circle class="ring rr2" cx="260" cy="260" r="210"/>
+            <circle class="ring rr3" cx="260" cy="260" r="174"/>
+            <circle class="ring rr4" cx="260" cy="260" r="132"/>
+            <circle class="arcA" cx="260" cy="260" r="226" filter="url(#soft)"/>
+            <circle class="arcB" cx="260" cy="260" r="188" filter="url(#soft)"/>
+            <circle class="arcC" cx="260" cy="260" r="151" filter="url(#soft)"/>
+            <g id="ticks480"></g>
+            <path class="comet" d="M80 318 Q 195 392 278 310"/>
+            <circle class="orb" cx="260" cy="260" r="64" fill="url(#orb)" filter="url(#soft)"/>
+            <circle class="orbrim" cx="260" cy="260" r="64"/>
+          </svg>
+          <div class="status">
+            <div class="stbrand">WJC · JARVIS CORE</div>
+            <div class="stword" id="stword">STANDBY</div>
+            <div class="strun" id="strun">Awaiting Executive Uplink</div>
+          </div>
+        </div>
+
+        <div class="response glass" id="responseWrap">
+          <div class="rhead">
+            <span>Jarvis Intelligence Stream</span>
+            <div class="rhead-actions">
+              <span class="rtag" id="rtag">IDLE</span>
+              <button class="btn-copy" id="btnCopy" title="Copy response">Copy</button>
+            </div>
+          </div>
+          <div class="rbody" id="response">
+            <span class="rplaceholder">Executive channel standing by. Transmit an instruction.</span>
+          </div>
+        </div>
+
+        <div class="missionbar glass">
+          <button id="mic" class="ctl mic" title="Voice / Continuous Executive Briefing">◉ Voice Mode</button>
+          <button id="run" class="ctl run" title="Send (Ctrl+Enter)">Transmit to Jarvis ▸</button>
+          <button id="btnNew" class="ctl aux">New Session</button>
+          <button id="btnCancel" class="ctl aux">Abort</button>
+          <button id="mute" class="ctl mute on" title="Mute speech audio">🔊</button>
+          <button id="clearBtn" class="ctl aux">Clear</button>
+        </div>
+      </section>
+
+      <!-- RIGHT: Action Log & Telemetry -->
+      <section class="col right glass">
+        <header class="colhead row">
+          <div class="h sm">Action Log</div>
+          <div class="live" id="live">OPENCLAW LIVE</div>
+        </header>
+
+        <div class="sysgrid">
+          <div class="sysrow"><span>Gateway</span><b id="sy-gw" class="ok">Online</b></div>
+          <div class="sysrow"><span>AI Backend</span><b id="sy-brain">OpenClaw v4</b></div>
+          <div class="sysrow"><span>Active Agent</span><b id="sy-agent">Jarvis (COO)</b></div>
+          <div class="sysrow"><span>Voice</span><b id="sy-voice">Checking…</b></div>
+          <div class="sysrow"><span>Active Session</span><b id="sy-session">—</b></div>
+          <div class="sysrow"><span>Clock (PHT)</span><b id="sy-clock">—</b></div>
+        </div>
+
+        <div class="missionPanel">
+          <div class="log-lbl">Quick Directives</div>
+          <div class="miniBtns">
+            <button data-quick="/status">Status</button>
+            <button data-quick="/agents">Agents</button>
+            <button data-quick="/sessions">Sessions</button>
+            <button data-quick="/mission">Missions</button>
+          </div>
+        </div>
+
+        <div class="log-lbl">Live Telemetry Stream</div>
+        <div class="log" id="log"></div>
+      </section>
     </div>
+  </div>
 
-    <div class="toolrack">
-      <div class="lbl">Connected Hermes Tools</div>
-      <div id="toolsList" class="chips"><span class="chip ghost">loading tool matrix…</span></div>
-    </div>
+  <!-- VIEW 2: AGENT OPERATIONS -->
+  <div class="view" id="view-agents">
+    <div class="page-container glass">
+      <header class="page-header">
+        <div>
+          <div class="page-title">Corporate Agent Operations</div>
+          <div class="page-subtitle">WJC Global Group Divisions & Specialized AI Workforce</div>
+        </div>
+        <button class="btn-refresh" id="btnRefreshAgents">↻ Refresh Roster</button>
+      </header>
 
-    <div class="uplink">
-      <div class="lbl">Pending uplink</div>
-      <div class="field">
-        <textarea id="input" rows="4" spellcheck="false" placeholder="Speak through browser voice or type a Hermes instruction. Slash commands are supported."></textarea>
+      <div class="division-group">
+        <div class="division-name">Executive Office</div>
+        <div class="agent-grid" id="agents-executive"></div>
       </div>
-      <div class="tip" id="tip">Use <b>Browser Voice</b> for local speech recognition, or server ElevenLabs if configured. Try <b>/browser</b> “open Chrome and inspect the current tab”.</div>
-    </div>
-  </section>
 
-  <section class="col center">
-    <div class="reactor" id="reactor">
-      <svg viewBox="0 0 520 520" id="core" aria-label="JARVIS reactor visualizer">
-        <defs>
-          <radialGradient id="orb" cx="50%" cy="45%" r="55%">
-            <stop offset="0%" stop-color="#ffffff"/><stop offset="25%" stop-color="#7ff7ff"/>
-            <stop offset="58%" stop-color="#16bfd8"/><stop offset="100%" stop-color="#02111b"/>
-          </radialGradient>
-          <filter id="soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <circle class="ring rr1" cx="260" cy="260" r="242"/>
-        <circle class="ring rr2" cx="260" cy="260" r="210"/>
-        <circle class="ring rr3" cx="260" cy="260" r="174"/>
-        <circle class="ring rr4" cx="260" cy="260" r="132"/>
-        <circle class="arcA" cx="260" cy="260" r="226" filter="url(#soft)"/>
-        <circle class="arcB" cx="260" cy="260" r="188" filter="url(#soft)"/>
-        <circle class="arcC" cx="260" cy="260" r="151" filter="url(#soft)"/>
-        <g id="ticks480"></g>
-        <path class="comet" d="M80 318 Q 195 392 278 310" />
-        <circle class="orb" cx="260" cy="260" r="64" fill="url(#orb)" filter="url(#soft)"/>
-        <circle class="orbrim" cx="260" cy="260" r="64"/>
-      </svg>
-      <div class="status">
-        <div class="stbrand">JARVIS CORE</div>
-        <div class="stword" id="stword">STANDBY</div>
-        <div class="strun" id="strun">awaiting uplink</div>
+      <div class="division-group">
+        <div class="division-name">Technology & Automation</div>
+        <div class="agent-grid" id="agents-tech"></div>
+      </div>
+
+      <div class="division-group">
+        <div class="division-name">STZ Crypto Media & OFW Media</div>
+        <div class="agent-grid" id="agents-media"></div>
+      </div>
+
+      <div class="division-group">
+        <div class="division-name">Trading, Investment & Mobility</div>
+        <div class="agent-grid" id="agents-trading"></div>
       </div>
     </div>
+  </div>
 
-    <div class="response glass" id="responseWrap">
-      <div class="rhead"><span>JARVIS Response</span><span class="rtag" id="rtag">IDLE</span></div>
-      <div class="rbody" id="response"><span class="rplaceholder">Standing by. Transmit an instruction.</span></div>
-    </div>
+  <!-- VIEW 3: MISSION CONTROL -->
+  <div class="view" id="view-missions">
+    <div class="page-container glass">
+      <header class="page-header">
+        <div>
+          <div class="page-title">Executive Mission Control</div>
+          <div class="page-subtitle">Strategic Objectives, Autonomous Tasks & Async Workflows</div>
+        </div>
+      </header>
 
-    <div class="missionbar glass">
-      <button id="mic" class="ctl mic" title="Browser voice / microphone">◉ Browser Voice</button>
-      <button id="run" class="ctl run" title="Send (⌘↵)">Transmit to JARVIS ▸</button>
-      <button id="showCommands" class="ctl aux">Show Commands</button>
-      <button id="missionBtn" class="ctl aux">Mission Control</button>
-      <button id="mute" class="ctl mute on" title="Mute Jarvis speech">🔊</button>
-      <button id="clearBtn" class="ctl aux">Clear</button>
-    </div>
-  </section>
+      <div class="missions-split">
+        <div class="mission-col">
+          <div class="card-title">Standing Strategic Objective</div>
+          <div class="goal-box">
+            <textarea id="goalInput" rows="3" placeholder="Set long-term standing objective for Jarvis..."></textarea>
+            <div class="goal-actions">
+              <button class="btn-action" id="btnSaveGoal">Update Objective</button>
+              <button class="btn-secondary" id="btnClearGoal">Clear</button>
+            </div>
+          </div>
 
-  <section class="col right glass">
-    <header class="colhead row">
-      <div class="h sm">Action Log</div>
-      <div class="live" id="live">LIVE TELEMETRY</div>
-    </header>
+          <div class="card-title" style="margin-top:24px;">Add to Mission Queue</div>
+          <div class="add-task-box">
+            <input type="text" id="newTaskInput" placeholder="Enter new mission or priority directive...">
+            <button class="btn-action" id="btnAddTask">Queue Mission</button>
+          </div>
 
-    <div class="sysgrid">
-      <div class="sysrow"><span>Gateway</span><b id="sy-gw" class="ok">online</b></div>
-      <div class="sysrow"><span>Brain</span><b id="sy-brain">—</b></div>
-      <div class="sysrow"><span>Voice</span><b id="sy-voice">—</b></div>
-      <div class="sysrow"><span>Profile</span><b id="sy-profile">default</b></div>
-      <div class="sysrow"><span>Runtime</span><b id="sy-runtime">—</b></div>
-      <div class="sysrow"><span>Uplink</span><b id="sy-clock">—</b></div>
-    </div>
+          <div class="card-title" style="margin-top:24px;">Active Background Operations</div>
+          <div class="jobs-list" id="jobsList">
+            <div class="empty-state">No active background tasks running.</div>
+          </div>
+        </div>
 
-    <div class="missionPanel">
-      <div class="log-lbl">Mission controls</div>
-      <div class="miniBtns">
-        <button data-quick="/status">Status</button>
-        <button data-quick="/tools">Tools</button>
-        <button data-quick="/toolsets">Toolsets</button>
-        <button data-quick="/connectors">Connectors</button>
+        <div class="mission-col">
+          <div class="card-title">Mission Queue (Priority Order)</div>
+          <div class="task-list" id="taskList">
+            <div class="empty-state">Mission queue is currently clear.</div>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="log-lbl">Event stream</div>
-    <div class="log" id="log"></div>
-  </section>
-</div>
+  <!-- VIEW 4: ACTIVITY & LOGS -->
+  <div class="view" id="view-activity">
+    <div class="page-container glass">
+      <header class="page-header">
+        <div>
+          <div class="page-title">System Activity & Audit Telemetry</div>
+          <div class="page-subtitle">Full OpenClaw Gateway Event Log & Session History</div>
+        </div>
+        <button class="btn-refresh" id="btnClearActivity">Clear View</button>
+      </header>
 
-<div class="brandmark">HERMES · JARVIS OS</div>
-<script src="app.js"></script>
+      <div class="activity-layout">
+        <div class="activity-sessions">
+          <div class="card-title">Recent Gateway Sessions</div>
+          <div class="sessions-list" id="sessionsList">
+            <div class="empty-state">Loading sessions...</div>
+          </div>
+        </div>
+
+        <div class="activity-feed">
+          <div class="card-title">Comprehensive Audit Telemetry</div>
+          <div class="audit-log" id="auditLog"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 5: SYSTEM MONITORING -->
+  <div class="view" id="view-system">
+    <div class="page-container glass">
+      <header class="page-header">
+        <div>
+          <div class="page-title">Gateway Infrastructure & Health</div>
+          <div class="page-subtitle">OpenClaw Gateway Diagnostics, Protocols & Security Parameters</div>
+        </div>
+        <button class="btn-refresh" id="btnRefreshHealth">↻ Refresh Diagnostics</button>
+      </header>
+
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-lbl">Gateway Status</div>
+          <div class="metric-val" id="diag-status">ONLINE</div>
+          <div class="metric-sub" id="diag-url">ws://127.0.0.1:18789</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-lbl">Gateway Protocol</div>
+          <div class="metric-val">v4.0</div>
+          <div class="metric-sub">Full Operator Scope</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-lbl">Gateway Version</div>
+          <div class="metric-val" id="diag-version">—</div>
+          <div class="metric-sub" id="diag-uptime">Uptime: 0s</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-lbl">Active Workforce</div>
+          <div class="metric-val" id="diag-agentcount">11 Agents</div>
+          <div class="metric-sub">5 Corporate Divisions</div>
+        </div>
+      </div>
+
+      <div class="diag-details">
+        <div class="card-title">Security & Protocol Policy</div>
+        <div class="diag-table">
+          <div class="diag-row"><span>Authentication Mode</span><b>Token Authentication (Server-Side Isolated)</b></div>
+          <div class="diag-row"><span>Operator Scopes</span><b>operator.read, operator.write, operator.approvals</b></div>
+          <div class="diag-row"><span>Client Capabilities</span><b>tool-events</b></div>
+          <div class="diag-row"><span>Maximum Frame Size</span><b>25 MiB</b></div>
+          <div class="diag-row"><span>AI Architecture</span><b style="color:var(--green)">100% Native OpenClaw Protocol v4 Gateway</b></div>
+          <div class="diag-row"><span>Sole AI Runtime</span><b style="color:var(--cyan)">OpenClaw Gateway Native</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 6: SETTINGS -->
+  <div class="view" id="view-settings">
+    <div class="page-container glass">
+      <header class="page-header">
+        <div>
+          <div class="page-title">Command Center Preferences</div>
+          <div class="page-subtitle">Voice Configuration, Audio Settings & Interface Options</div>
+        </div>
+      </header>
+
+      <div class="settings-grid">
+        <div class="setting-item">
+          <div>
+            <div class="setting-title">Voice Output Synthesis</div>
+            <div class="setting-desc">Read Jarvis executive responses aloud upon generation completion.</div>
+          </div>
+          <input type="checkbox" id="settingSpeechEnabled" checked class="toggle">
+        </div>
+
+        <div class="setting-item">
+          <div>
+            <div class="setting-title">Voice Provider Mode</div>
+            <div class="setting-desc">Server-side ElevenLabs or local browser Web Speech API.</div>
+          </div>
+          <select id="settingVoiceMode" class="agent-dropdown" style="max-width:200px;">
+            <option value="auto">Auto (ElevenLabs if set)</option>
+            <option value="browser">Browser Web Speech</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <div>
+            <div class="setting-title">Reduced Visual Motion</div>
+            <div class="setting-desc">Minimize continuous 3D reactor rotation and pulsing animations.</div>
+          </div>
+          <input type="checkbox" id="settingReducedMotion" class="toggle">
+        </div>
+
+        <div class="setting-item">
+          <div>
+            <div class="setting-title">Reset Active Session</div>
+            <div class="setting-desc">Clear current session key and initialize a fresh thread on the Gateway.</div>
+          </div>
+          <button class="btn-action" id="btnResetSession">Reset Session Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="brandmark">WJC GLOBAL GROUP · JARVIS OS · OPENCLAW NATIVE</div>
+
+<script src="app.js?v=4"></script>
 </body>
 </html>

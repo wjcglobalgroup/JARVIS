@@ -1,185 +1,168 @@
-# JARVIS · Hermes Agent Mission Control
+# WJC GLOBAL GROUP — JARVIS COMMAND CENTER
 
-A local, voice-enabled JARVIS dashboard for [Hermes Agent](https://github.com/NousResearch/hermes-agent). It is a visual interface over your existing Hermes profile—not a second agent runtime—so it inherits the same tools, skills, memory, browser automation, MCP servers, and third-party integrations.
+[![Repository](https://img.shields.io/badge/GitHub-wjcglobalgroup%2FJARVIS-cyan.svg)](https://github.com/wjcglobalgroup/JARVIS)
+[![Architecture](https://img.shields.io/badge/Architecture-OpenClaw%20Gateway%20Native%20v4-blue.svg)](#architecture)
+[![Executive](https://img.shields.io/badge/Principal-Willy%20%7C%20Chairman%20%26%20CEO-gold.svg)](#executive-roster)
+[![Main Agent](https://img.shields.io/badge/COO-Jarvis%20%28agentId%3A%20main%29-teal.svg)](#verified-corporate-agent-directory)
 
-![JARVIS Hermes dashboard](docs/screenshot.png)
+An enterprise-grade executive AI command center for **WJC GLOBAL GROUP**, powered by a direct, native integration with the **OpenClaw Gateway (Protocol v4 over WebSocket)**.
 
-## What you get
+- **Principal / Owner:** Willy — Chairman & CEO, WJC GLOBAL GROUP
+- **Chief AI Operating Officer:** Jarvis (`main`) — Group COO
+- **Official Repository:** [https://github.com/wjcglobalgroup/JARVIS](https://github.com/wjcglobalgroup/JARVIS)
+- **Local Console:** [http://127.0.0.1:8730](http://127.0.0.1:8730) (IPv4/IPv6 Dual-Stack)
 
-- Futuristic browser-based mission-control HUD
-- Natural conversational replies with a concise JARVIS voice persona
-- Continuous voice conversation: listen → transcribe → answer → speak → listen
-- Optional ElevenLabs speech-to-text and text-to-speech
-- Browser speech fallback when ElevenLabs is not configured
-- Working command matrix and slash commands
-- Hermes session continuity across voice turns
-- Access to the active Hermes profile's tools, skills, browser, memory, and MCP integrations
-- Local-only HTTP server bound to `127.0.0.1`
+---
 
-## Prerequisites
+## 1. Executive Architecture
 
-1. macOS or Linux with Python 3 and a modern Chromium browser.
-2. Hermes Agent installed and configured:
+The Command Center connects directly to the OpenClaw Gateway runtime over WebSocket (Protocol v4) with full operator credentials, session persistence, and real-time token streaming:
 
-```bash
-curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
-hermes setup
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    WJC GLOBAL GROUP                         │
+│                 JARVIS COMMAND CENTER                       │
+├─────────────────────────────────────────────────────────────┤
+│  Executive HUD: Chat · Agents · Missions · Telemetry        │
+└──────────────────────────────┬──────────────────────────────┘
+                               │ HTTP / NDJSON Event Stream
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                   DASHBOARD BACKEND                         │
+│          server.py · runtime.py · commands.py               │
+│         HttpOnly Cookie Auth & Host/CSRF Validation         │
+└──────────────────────────────┬──────────────────────────────┘
+                               │ WebSocket (Protocol v4)
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  OPENCLAW GATEWAY (18789)                   │
+│          Handshake · Operator Scopes · Tool Events          │
+└──────────────────────────────┬──────────────────────────────┘
+                               │ Agent Routing
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  JARVIS (Group COO - 'main')                │
+│  Corporate Divisions:                                       │
+│  • Executive Office: Jarvis                                 │
+│  • Technology & Automation: Coddy, Moddy, Vera              │
+│  • STZ Crypto Media & OFW Media: Sniper, Nova, Marco        │
+│  • Trading, Investment & Mobility: Vortex, Dave, June, Kyle │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-Confirm that `hermes chat -q "Say online"` works before installing the dashboard.
+---
 
-## One-command install
+## 2. Core Capabilities
 
-```bash
-git clone https://github.com/Itsme23476/jarvis-hermes-dashboard.git && \
-cd jarvis-hermes-dashboard && \
-./install.sh
+- **100% Native OpenClaw Protocol v4**: Direct, persistent WebSocket integration to the local OpenClaw Gateway on port 18789.
+- **Standalone Windows Background Service**: Configured to run independently in the Windows background via the user Startup folder (`shell:startup`) and desktop shortcuts. Fully isolated from external terminal sessions.
+- **Real-Time Streaming Chat**: Live executive response streaming with token delivery, latency metrics, tool execution feedback, and session continuity.
+- **Enterprise Workforce Directory**: Dynamic discovery of 11 verified corporate agents categorized into 5 operational divisions.
+- **Executive Mission Control**: Real-time management of standing corporate objectives, prioritized mission queue, and asynchronous background operations.
+- **Dynamic 3D Reactor HUD**: Real-time SVG visualizer reflecting live operational states (`STANDBY`, `LISTENING`, `THINKING`, `RESPONDING`, `OFFLINE`, and `ERROR`).
+- **Continuous Voice Briefing**: Hands-free executive voice conversation supporting server-side ElevenLabs or local browser Web Speech API.
+- **Security Hardened**:
+  - OpenClaw Gateway credentials remain strictly isolated server-side.
+  - Zero token exposure in DOM, meta tags, or client-side storage.
+  - SameSite HttpOnly session cookie authentication.
+  - Dual-stack IPv4/IPv6 support (`::` and `127.0.0.1`).
+
+---
+
+## 3. Verified Corporate Agent Directory
+
+| Division | Agent Name | Agent ID | Corporate Role |
+| :--- | :--- | :--- | :--- |
+| **Executive Office** | **Jarvis** | `main` | **Group Chief Operating Officer (COO)** |
+| **Technology & Automation** | **Coddy** | `coddy` | Chief Automation Architect |
+| | **Moddy** | `moddy` | System Integration Specialist |
+| | **Vera** | `vera` | Security & Compliance Auditor |
+| **STZ Crypto Media** | **Sniper** | `sniper` | Market Intelligence & Crypto Editor |
+| | **Nova** | `nova` | Digital Content Strategist |
+| **OFW Digital Media** | **Marco** | `marco` | Community & Media Coordinator |
+| **Trading & Investment** | **Vortex** | `vortex` | Algorithmic Trading Strategist |
+| | **Dave** | `dave` | Portfolio & Risk Analyst |
+| | **June** | `june` | Financial Data Operations |
+| **KYLEXINE Traveler** | **Kyle** | `kyle` | Mobility & Logistics Director |
+
+---
+
+## 4. Operation & Management
+
+### Launching the Dashboard
+
+#### Option A: Windows Background Service (Automatic)
+The service automatically boots on Windows login via:
+```
+%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\JarvisCommandCenter.vbs
 ```
 
-The installer creates a private `.env` file, starts the dashboard, and opens:
+#### Option B: Desktop Shortcuts
+* **`Start JARVIS Dashboard.bat`** — Launches the background server and opens your browser.
+* **`Stop JARVIS Dashboard.bat`** — Terminates the active server instance.
 
-<http://127.0.0.1:8730>
+#### Option C: Manual Command Line
+```cmd
+cd /d "C:\Javis Command Center\jarvis-command-center"
+start.bat
+```
 
-No API keys are required for the basic dashboard. Browser speech APIs are used as a fallback.
+Access the web interface at **[http://localhost:8730](http://localhost:8730)**.
 
-## One-prompt installation with Hermes
+---
 
-Give this prompt to an already-installed Hermes Agent:
+## 5. Configuration (`.env`)
 
-> Install and launch the JARVIS dashboard from https://github.com/Itsme23476/jarvis-hermes-dashboard. Clone or update it under ~/jarvis-hermes-dashboard, preserve any existing private .env file, run its installer, verify http://127.0.0.1:8730/api/status reports the Hermes runtime, and tell me the local dashboard URL. Do not print or expose any credentials.
+```ini
+# Dashboard Web Server
+JARVIS_HOST=127.0.0.1
+JARVIS_PORT=8730
+JARVIS_OPEN=1
 
-Hermes can perform the clone, setup, launch, and health check with its terminal tools.
+# OpenClaw Gateway Integration
+OPENCLAW_GATEWAY_URL=ws://127.0.0.1:18789
 
-## Voice setup
+# Gateway Operator Token (Auto-discovered from ~/.openclaw/openclaw.json if empty)
+OPENCLAW_GATEWAY_TOKEN=
 
-Voice works without configuration when the browser provides SpeechRecognition and speechSynthesis. For more reliable speech, add an ElevenLabs key to the private `.env` file:
+# Default Agent ID
+OPENCLAW_DEFAULT_AGENT=main
 
-```bash
-ELEVENLABS_API_KEY=your_private_key
-ELEVENLABS_VOICE_ID=JBFqnCBsd6RMkjVDRZzb
+# Optional Voice (ElevenLabs TTS/STT)
+ELEVENLABS_API_KEY=
+ELEVENLABS_VOICE_ID=21m00Tcm4TlvDq8ikWAM
 ELEVENLABS_MODEL=eleven_turbo_v2_5
 ```
 
-Restart the dashboard after editing `.env`. The key stays server-side and is never sent to frontend JavaScript.
+---
 
-## Hermes profile and tools
-
-The dashboard uses the `default` Hermes profile unless overridden:
-
-```bash
-HERMES_PROFILE=work ./start.sh
-```
-
-If Hermes is installed at a nonstandard location:
-
-```bash
-HERMES_CMD="/absolute/path/to/hermes" ./start.sh
-```
-
-Third-party applications are connected in Hermes itself—not separately in this dashboard. Typical setup paths are:
-
-```bash
-hermes skills browse       # Gmail, Notion, Airtable, Google Workspace, etc.
-hermes tools               # built-in toolsets
-hermes mcp list            # external MCP servers
-hermes gateway setup       # Telegram, Slack, Discord, WhatsApp, etc.
-```
-
-After changing Hermes tools or integrations, restart the dashboard or use `/new`.
-
-## Command Matrix
-
-Every button executes its base command immediately. Commands that accept a payload stay armed so the next typed or spoken phrase becomes `/command payload`.
+## 6. Executive Slash Commands
 
 | Command | Action |
-|---|---|
-| `/new` | Start a fresh Hermes thread |
-| `/goal <text\|status\|clear>` | Set, read, or clear the standing objective |
-| `/tools` | Run `hermes tools list` |
-| `/browser <task>` | Ask Hermes to use its browser/Chrome tools |
-| `/background <mission>` | Run a background Hermes mission |
-| `/mission [task]` | Read or add to the local mission queue |
-| `/personality <tone>` | Read or change the JARVIS tone overlay |
-| `/commands` | Show all dashboard commands |
-| `/toolsets` | Summarize enabled Hermes toolsets |
-| `/connectors` | Explain integration inheritance |
-| `/connect <name>` | Request Hermes-native connection guidance |
-| `/status` | Show runtime/profile/voice status |
+| :--- | :--- |
+| `/new` | Initialize a fresh OpenClaw session with Jarvis |
+| `/agents` | List verified corporate agents and operational divisions |
+| `/sessions` | Display active and recent Gateway sessions |
+| `/status` | View OpenClaw Gateway health, server version, and uptime |
+| `/goal <text>` | Set, review, or clear the standing executive objective |
+| `/mission [task]` | Add directives to the mission queue or inspect pending tasks |
+| `/background <mission>` | Launch an asynchronous background mission through OpenClaw |
+| `/browser <task>` | Instruct Jarvis to execute browser automation |
+| `/personality <tone>` | Adjust Jarvis executive tone overlay |
+| `/clear` | Clear the display console (retains OpenClaw session) |
+| `/help` | Show executive command reference |
 
-Normal text and voice requests go directly to Hermes Agent.
+---
 
-## Architecture
+## 7. Security Architecture
 
-```text
-Browser HUD
-  ├─ microphone → browser MediaRecorder → ElevenLabs STT (optional)
-  ├─ POST /api/run → Python NDJSON server
-  ├─ Hermes CLI quiet mode → active Hermes profile and tools
-  └─ response → ElevenLabs TTS or browser speech synthesis
-```
+1. **Token Isolation**: The OpenClaw Gateway token is kept strictly in server memory. It is never transmitted to the browser or placed in HTML meta tags.
+2. **HttpOnly Session Cookies**: Browser requests authenticate via an `HttpOnly`, `SameSite=Lax` cookie generated upon serving `index.html`.
+3. **No Shell Injections**: User-configurable goals and mission text are bounded and sanitized before inclusion into agent prompts.
+4. **Host & Origin Validation**: The backend checks `Host` and `Origin` headers to prevent cross-site websocket and DNS rebinding attacks.
 
-Key files:
+---
 
-```text
-server.py       local HTTP API and NDJSON streaming
-runtime.py      Hermes CLI subprocess and session continuity
-commands.py     dashboard slash commands and mission queue
-voice.py        optional ElevenLabs STT/TTS proxy
-persona.md      concise spoken JARVIS persona
-ui/             dependency-free HTML/CSS/JavaScript HUD
-install.sh      first-run setup and launch
-start.sh        local launcher
-```
+## 8. License
 
-## Security
-
-- The server binds only to `127.0.0.1`; it is not exposed to the network.
-- Every state-changing API request requires a per-launch random token, same-origin request, valid localhost host header, approved content type, and bounded request size.
-- Agent runs are serialized so multiple tabs cannot race the shared Hermes session.
-- Raw prompt logging is disabled unless `JARVIS_RAW_LOG` is explicitly configured; opt-in logs are created with mode `0600` and symlink protection.
-- `.env`, state files, Python caches, and local credentials are ignored by Git.
-- The dashboard never bundles Google, Zapier, Gmail, ElevenLabs, or Hermes credentials.
-- Connected apps remain owned and authenticated by the user's Hermes profile.
-- Review third-party skills and MCP servers before installing them.
-
-## Manual start
-
-```bash
-cd ~/jarvis-hermes-dashboard
-./start.sh
-```
-
-To use another port:
-
-```bash
-JARVIS_PORT=9000 ./start.sh
-```
-
-## Troubleshooting
-
-### Hermes is not found
-
-```bash
-which hermes
-hermes doctor
-```
-
-Then set `HERMES_CMD` in `.env` if needed.
-
-### Microphone does not activate
-
-Allow microphone access for `127.0.0.1` in the browser's site settings. ElevenLabs is optional; without it, use a browser that supports Web Speech APIs.
-
-### A newly connected tool is missing
-
-Start a fresh session after changing Hermes tools:
-
-```bash
-hermes tools list
-```
-
-Then restart the dashboard and click `/new`.
-
-## Credits and license
-
-Originally inspired by [`Itsme23476/jarvis-os`](https://github.com/Itsme23476/jarvis-os), redesigned and adapted to use Hermes Agent as its runtime. Released under the MIT License; see [LICENSE](LICENSE).
+Proprietary — Executive Office of Willy, Chairman & CEO, **WJC GLOBAL GROUP**. All rights reserved.

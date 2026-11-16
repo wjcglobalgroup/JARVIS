@@ -1,17 +1,13 @@
 """
-Command matrix for the Hermes-backed JARVIS dashboard.
+Command matrix for WJC GLOBAL GROUP — JARVIS COMMAND CENTER.
 
-Local commands keep the HUD fast for mission control/status while prompts and
-unknown slash commands are handed to Hermes Agent. Hermes-native tool access comes
-from the runtime subprocess (`hermes chat -q ...`) using the configured profile.
+Handles local commands, mission queue management, and OpenClaw agent coordination.
+OpenClaw-native executive commands and direct API routing.
 """
 import json
 import os
 import pathlib
 import re
-import shlex
-import shutil
-import subprocess
 import threading
 import time
 import uuid
@@ -54,7 +50,7 @@ def save(d):
 
 
 def update_state(mutator):
-    """Apply one read-modify-write transaction without losing concurrent updates."""
+    """Apply one read-modify-write transaction safely."""
     with _LOCK:
         d = _load_unlocked()
         result = mutator(d)
@@ -62,32 +58,52 @@ def update_state(mutator):
         return result
 
 
+def _sanitize_for_prompt(text, max_len=300):
+    """Strip prompt injection control characters and bound text length."""
+    if not text:
+        return ""
+    clean = re.sub(r"[\r\n]+", " ", str(text)).strip()
+    clean = clean.replace("<|", "").replace("|>", "")
+    return clean[:max_len]
+
+
 def context_block():
+    """Build context notes safely without allowing prompt injection."""
     d = load()
     out = []
-    if d["profile"]:
-        out.append("## User profile notes from JARVIS dashboard\n" + "\n".join(f"- {x}" for x in d["profile"][-40:]))
     if d["goal"]:
-        out.append(f"## Standing objective\n{d['goal']}\nKeep it in mind; mention it only when relevant.")
+        clean_goal = _sanitize_for_prompt(d["goal"], 500)
+        out.append(f"Standing objective: {clean_goal}")
     if d["personality"]:
-        out.append(f"## Tone overlay\n{d['personality']}\nThis adjusts delivery; stay concise.")
+        clean_tone = _sanitize_for_prompt(d["personality"], 200)
+        out.append(f"Tone guideline: {clean_tone}")
     open_tasks = [t for t in d["tasks"] if not t.get("done")]
     if open_tasks:
-        out.append("## Mission queue\n" + "\n".join(f"- {t['text']}" for t in open_tasks[:20]))
-    return "\n\n".join(out)
+        tasks_text = "; ".join(_sanitize_for_prompt(t["text"], 100) for t in open_tasks[:10])
+        out.append(f"Active mission queue items: {tasks_text}")
+    return "\n".join(out)
 
 
+# Background missions tracker
 JOBS = {}
 _JOB_LOCK = threading.Lock()
 
 
 def start_background(mission, runner):
+    """Run an OpenClaw background mission asynchronously."""
     jid = uuid.uuid4().hex[:8]
     with _JOB_LOCK:
-        JOBS[jid] = {"id": jid, "status": "running", "mission": mission,
-                     "result": "", "started": time.time(), "finished": None}
+        JOBS[jid] = {
+            "id": jid,
+            "status": "running",
+            "mission": mission,
+            "result": "",
+            "started": time.time(),
+            "finished": None,
+        }
     update_state(lambda d: d["missions"].append(
-        {"id": jid, "mission": mission, "status": "running", "at": time.time()}))
+        {"id": jid, "mission": mission, "status": "running", "at": time.time()}
+    ))
 
     def _work():
         text = ""
@@ -95,22 +111,26 @@ def start_background(mission, runner):
         try:
             for ev in runner(mission):
                 if ev.get("t") == "delta":
-                    text += ev["text"]
+                    text += ev.get("text", "")
                 elif ev.get("t") == "error":
                     status = "failed"
-                    text = text or ("failed: " + str(ev.get("message", ""))[:260])
-        except Exception as e:  # noqa: BLE001
+                    text = text or (f"failed: {ev.get('message', '')}"[:260])
+        except Exception as e:
             status = "failed"
             text = f"failed: {e}"[:260]
+
         with _JOB_LOCK:
-            JOBS[jid].update(status="done", result=text.strip(), finished=time.time())
+            if jid in JOBS:
+                JOBS[jid].update(status=status, result=text.strip(), finished=time.time())
+
         def finish(d2):
             for item in d2.get("missions", []):
                 if item.get("id") == jid:
                     item.update(status=status, finished=time.time(), result=text.strip()[:500])
+
         update_state(finish)
 
-    threading.Thread(target=_work, daemon=True).start()
+    threading.Thread(target=_work, name=f"Mission-{jid}", daemon=True).start()
     return jid
 
 
@@ -121,59 +141,50 @@ def jobs_snapshot():
 
 def take_finished():
     with _JOB_LOCK:
-        done = [dict(j) for j in JOBS.values() if j["status"] == "done"]
+        done = [dict(j) for j in JOBS.values() if j["status"] in ("done", "failed")]
         for j in done:
             JOBS.pop(j["id"], None)
         return done
 
 
-_CMD = re.compile(r"^\s*/(new|profile|goal|personality|kanban|mission|missions|background|tools|toolsets|connectors|connect|status|commands|help|browser|clear)\b\s*(.*)$", re.I | re.S)
-
-
-def _hermes_command(*args):
-    configured = os.environ.get("HERMES_CMD", "").strip()
-    if configured:
-        return shlex.split(configured) + list(args)
-    executable = shutil.which("hermes")
-    if executable:
-        return [executable, *args]
-    return ["python3", "-m", "hermes_cli.main", *args]
-
-
-def _shell(cmd, timeout=25):
-    try:
-        p = subprocess.run(cmd, text=True, cwd=os.getcwd(), stdout=subprocess.PIPE,
-                           stderr=subprocess.PIPE, timeout=timeout)
-        return (p.stdout or p.stderr or "").strip()[:3500]
-    except Exception as e:  # noqa: BLE001
-        return f"Unavailable: {e}"
+_CMD = re.compile(
+    r"^\s*/(new|goal|personality|kanban|mission|missions|background|status|commands|help|clear|agents|sessions|browser|tools)\b\s*(.*)$",
+    re.I | re.S,
+)
 
 
 def _commands_reply():
-    return """Available dashboard slash commands:
-/new — reset the Hermes thread
-/goal <text|status|clear> — set/read/clear standing objective
-/profile <fact> — add a local profile note injected into Hermes prompts
-/personality <tone> — set Jarvis tone overlay
-/kanban [task] — read/add mission queue item
-/mission [task] — alias for /kanban
-/background <mission> — run a Hermes mission asynchronously
-/tools — show Hermes tool status from `hermes tools list`
-/connectors — explain that connected Hermes tools transfer into this dashboard
-/connect <name> — ask Hermes how to connect a third-party app generally
-/toolsets — ask Hermes to list available toolsets
-/status — local Hermes runtime/profile/status
-/browser <task> — ask Hermes to use browser/Chrome tools
-/clear — clear the response panel locally
-/help or /commands — show this list
+    return """**WJC GLOBAL GROUP — JARVIS COMMAND CENTER**
+Available slash commands:
 
-You can also type normal Hermes prompts. Unknown slash commands are forwarded to Hermes."""
+• **/new** — Start a fresh OpenClaw session with Jarvis
+• **/agents** — List verified corporate agents and operational divisions
+• **/sessions** — List active and recent Gateway sessions
+• **/status** — OpenClaw Gateway connectivity, uptime, and runtime telemetry
+• **/goal** `<text|status|clear>` — Set, inspect, or clear standing executive objective
+• **/personality** `<tone>` — Adjust Jarvis tone overlay
+• **/mission** `[task]` — Add or review items in the mission queue
+• **/background** `<task>` — Launch an asynchronous background mission through OpenClaw
+• **/browser** `<instruction>` — Direct Jarvis to execute browser automation
+• **/clear** — Clear the local console display
+• **/help** or **/commands** — Display this command reference"""
 
 
-def handle(message, runner=None):
+def handle(message, runner=None, runtime_module=None):
+    """
+    Handle slash commands.
+    Returns:
+      None if not a slash command (forward to OpenClaw).
+      dict with keys:
+        - fresh: bool (optional)
+        - message: prompt string or None (if handled locally)
+        - reply: local response text (if message is None)
+        - note: short telemetry label
+    """
     m = _CMD.match(message or "")
     if not m:
         return None
+
     cmd, arg = m.group(1).lower(), m.group(2).strip()
     d = load()
 
@@ -181,80 +192,139 @@ def handle(message, runner=None):
         return dict(message=None, reply=_commands_reply(), note="commands shown")
 
     if cmd == "clear":
-        return dict(message=None, reply="Display cleared. Hermes session is unchanged.", note="display clear")
+        return dict(message=None, reply="Console display cleared. Gateway session preserved.", note="display clear")
 
     if cmd == "new":
-        return dict(fresh=True, message=arg or "Start a fresh Hermes dashboard session. Greet me in one concise JARVIS-style line.", note="Hermes thread reset")
+        return dict(
+            fresh=True,
+            message=arg or "Initialize a fresh Jarvis session for WJC Global Group. Greet Willy concisely.",
+            note="fresh session initialized",
+        )
 
     if cmd == "status":
-        profile = os.environ.get("HERMES_PROFILE", os.environ.get("JARVIS_PROFILE", "default"))
-        runtime = os.environ.get("HERMES_CMD", "hermes")
-        return dict(message=None, reply=f"Hermes dashboard online. profile={profile}; runtime={runtime}; workdir={os.getcwd()}; voice=browser Web Speech + optional ElevenLabs.", note="status read")
+        if runtime_module:
+            st = runtime_module.connection_status()
+            reply = (
+                f"**WJC GLOBAL GROUP — RUNTIME STATUS**\n"
+                f"• **AI Runtime**: OpenClaw Gateway (Protocol v4)\n"
+                f"• **Gateway URL**: {st.get('gateway_url')}\n"
+                f"• **Connection State**: {st.get('state')}\n"
+                f"• **Server Version**: OpenClaw {st.get('server_version')}\n"
+                f"• **Default COO Agent**: Jarvis (`{st.get('default_agent')}`)\n"
+                f"• **Uptime**: {st.get('uptime_seconds')} seconds"
+            )
+        else:
+            reply = "OpenClaw Gateway status check."
+        return dict(message=None, reply=reply, note="status read")
 
-    if cmd in ("tools", "toolsets"):
-        if cmd == "tools":
-            out = _shell(_hermes_command("tools", "list"))
-            reply = out or "No tool list returned. Start from a shell where `hermes tools list` works, or set HERMES_CMD."
-            return dict(message=None, reply=reply, note="Hermes tools listed")
-        return dict(message="List my enabled Hermes toolsets and connected third-party tools. Include browser/Chrome availability if present. Keep it concise.", note="toolsets requested")
+    if cmd == "agents":
+        if runtime_module:
+            try:
+                agents = runtime_module.list_agents()
+                lines = ["**WJC GLOBAL GROUP — VERIFIED AGENT ROSTER**\n"]
+                for a in agents:
+                    is_def = " *(Default / Group COO)*" if a.get("is_default") else ""
+                    lines.append(f"• **{a.get('name')}** (`{a.get('id')}`){is_def} — {a.get('role')}")
+                reply = "\n".join(lines)
+            except Exception as e:
+                reply = f"Failed to retrieve agent roster from Gateway: {e}"
+        else:
+            reply = "Agent directory unavailable."
+        return dict(message=None, reply=reply, note="agents roster")
 
-    if cmd == "connectors":
-        return dict(message=None, note="connector bridge explained", reply=(
-            "This dashboard does not need separate app wiring. It launches Hermes with your active profile, so any third-party app already connected in Hermes transfers here automatically.\n\n"
-            "Connect apps in Hermes itself with: hermes tools, hermes mcp, hermes gateway setup, or the relevant Hermes skill. Then restart this dashboard.\n\n"
-            "Use /tools or /toolsets here to see what the dashboard can currently reach."
-        ))
+    if cmd == "sessions":
+        if runtime_module:
+            try:
+                sessions = runtime_module.list_sessions(limit=10)
+                lines = ["**OPENCLAW GATEWAY — RECENT SESSIONS**\n"]
+                for s in sessions:
+                    active_tag = " [ACTIVE]" if s.get("active") else ""
+                    lines.append(f"• `{s.get('key')}` (Agent: `{s.get('agent_id')}`){active_tag}")
+                reply = "\n".join(lines)
+            except Exception as e:
+                reply = f"Failed to retrieve sessions from Gateway: {e}"
+        else:
+            reply = "Sessions listing unavailable."
+        return dict(message=None, reply=reply, note="sessions list")
 
-    if cmd == "connect":
-        target = (arg or "third-party app").strip()
-        return dict(message=(
-            f"Explain the correct Hermes-native way to connect {target} as a third-party app/tool. "
-            "Be generic: the dashboard should inherit whatever is connected to Hermes, not maintain separate credentials. "
-            "Include the relevant Hermes command family if known, like hermes tools, hermes mcp, hermes gateway setup, or a skill."
-        ), note=f"connector help: {target[:40]}")
+    if cmd == "tools":
+        return dict(
+            message=None,
+            reply=(
+                "**OpenClaw Tool Architecture**\n"
+                "In OpenClaw, toolsets and MCP servers are configured per-agent on the Gateway. "
+                "Jarvis automatically invokes tools (e.g. browser, file system, APIs, web search) as needed."
+            ),
+            note="tools architecture",
+        )
 
     if cmd == "browser":
-        task = arg or "open or inspect Google Chrome using the configured Hermes browser/computer-use tools and report what is available"
-        return dict(message=f"Use my Hermes browser/Google Chrome tooling if available: {task}", note="browser mission armed")
-
-    if cmd == "profile":
-        if not arg:
-            facts = d["profile"]
-            return dict(message=None, reply=("\n".join(f"- {x}" for x in facts[-20:]) if facts else "I don't know anything about you yet."), note="profile read")
-        update_state(lambda state: state["profile"].append(arg))
-        return dict(message=f'The user saved this dashboard profile note: "{arg}". Acknowledge in one short line.', note=f"profile += {arg[:50]}")
+        task = arg or "inspect the browser environment and report status"
+        return dict(
+            message=f"Use your browser automation tool to perform this task: {task}",
+            note="browser instruction armed",
+        )
 
     if cmd == "goal":
         if arg.lower() == "clear":
             update_state(lambda state: state.__setitem__("goal", ""))
             return dict(message=None, reply="Standing objective cleared.", note="goal cleared")
         if not arg or arg.lower() == "status":
-            return dict(message=None, reply=d["goal"] or "No standing objective set.", note="goal read")
-        update_state(lambda state: state.__setitem__("goal", arg))
-        return dict(message=f'The user set this standing objective: "{arg}". Acknowledge in one concise line.', note=f"goal set: {arg[:50]}")
+            return dict(
+                message=None,
+                reply=f"Standing objective: {d['goal']}" if d["goal"] else "No standing objective set.",
+                note="goal read",
+            )
+        clean_arg = _sanitize_for_prompt(arg, 500)
+        update_state(lambda state: state.__setitem__("goal", clean_arg))
+        return dict(
+            message=f'The CEO set this standing objective: "{clean_arg}". Acknowledge concisely as Jarvis.',
+            note=f"goal set: {clean_arg[:40]}",
+        )
 
     if cmd == "personality":
         if not arg:
-            return dict(message=None, reply=d["personality"] or "Running default JARVIS persona.", note="persona read")
-        update_state(lambda state: state.__setitem__("personality", arg))
-        return dict(message=f'Tone overlay changed to: "{arg}". Reply in one short line using that tone.', note=f"persona: {arg[:50]}")
+            return dict(
+                message=None,
+                reply=f"Active tone overlay: {d['personality']}" if d["personality"] else "Running standard Jarvis executive persona.",
+                note="persona read",
+            )
+        clean_tone = _sanitize_for_prompt(arg, 200)
+        update_state(lambda state: state.__setitem__("personality", clean_tone))
+        return dict(
+            message=f'Executive tone overlay set to: "{clean_tone}". Acknowledge in one short sentence.',
+            note=f"persona: {clean_tone[:40]}",
+        )
 
     if cmd in ("kanban", "mission", "missions"):
         if arg:
+            clean_task = _sanitize_for_prompt(arg, 200)
             update_state(lambda state: state["tasks"].append(
-                {"text": arg, "done": False, "at": time.time()}))
-            return dict(message=f'Added to the mission queue: "{arg}". Confirm in one short line.', note=f"mission += {arg[:50]}")
+                {"text": clean_task, "done": False, "at": time.time()}
+            ))
+            return dict(
+                message=f'Added to WJC mission queue: "{clean_task}". Acknowledge concisely as Jarvis.',
+                note=f"mission += {clean_task[:40]}",
+            )
         open_t = [t["text"] for t in d["tasks"] if not t.get("done")]
         if not open_t:
-            return dict(message=None, reply="Mission queue is empty.", note="queue read")
-        return dict(message=None, reply="Mission queue:\n" + "\n".join(f"- {t}" for t in open_t), note=f"queue read ({len(open_t)})")
+            return dict(message=None, reply="Mission queue is currently empty.", note="queue empty")
+        return dict(
+            message=None,
+            reply="**WJC GLOBAL GROUP — MISSION QUEUE**\n" + "\n".join(f"• {t}" for t in open_t),
+            note=f"queue read ({len(open_t)})",
+        )
 
     if cmd == "background":
         if not arg:
-            return dict(message=None, reply="Give me a mission.", note="background empty")
+            return dict(message=None, reply="Specify a mission to execute in the background.", note="background empty")
         if runner is None:
-            return dict(message=None, reply="Background missions aren't available.", note="background unavailable")
+            return dict(message=None, reply="Background mission execution unavailable.", note="background unavailable")
         jid = start_background(arg, runner)
-        return dict(message=None, reply=f"Background Hermes mission {jid} launched. I'll report when it lands.", note=f"mission {jid} started: {arg[:50]}")
+        return dict(
+            message=None,
+            reply=f"Background mission `{jid}` dispatched to OpenClaw. Telemetry will update upon completion.",
+            note=f"mission {jid} started",
+        )
 
     return None

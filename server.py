@@ -1,28 +1,58 @@
 """
-JARVIS Live — a HUD that drives Hermes Agent.
+WJC GLOBAL GROUP — JARVIS COMMAND CENTER Server.
 
-    python3 server.py
-
-The brain is your own Hermes Agent CLI/profile. Hermes keeps access to the same
-configured tools, browser/Chrome automation, MCP servers, skills, memory, and
-third-party integrations that your normal Hermes sessions have. Voice can use the
-browser Web Speech API, with optional server-side ElevenLabs STT/TTS if present.
+Secure HTTP and NDJSON backend connecting the dashboard interface to the OpenClaw Gateway.
+Owner: Willy — Chairman & CEO
+Main AI Agent: Jarvis — Group COO
 """
+import http.cookies
 import json
+import logging
 import mimetypes
 import os
 import pathlib
 import secrets
+import socket
 import sys
 import threading
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
+
+# Ensure sys.stdout/sys.stderr are valid when run under pythonw.exe or hidden window
+if sys.stdout is None:
+    sys.stdout = open(os.devnull, "w", encoding="utf-8")
+if sys.stderr is None:
+    sys.stderr = open(os.devnull, "w", encoding="utf-8")
+
+# File-based logging so crashes in headless mode are diagnosable
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(name)s %(levelname)s: %(message)s",
+    handlers=[
+        logging.FileHandler(
+            pathlib.Path(__file__).resolve().parent / "server.log",
+            encoding="utf-8",
+        ),
+        logging.StreamHandler(sys.stderr),
+    ],
+)
+
+class DualStackThreadingHTTPServer(ThreadingHTTPServer):
+    """Threading HTTP server supporting dual-stack IPv4 and IPv6."""
+    address_family = socket.AF_INET6
+
+    def server_bind(self):
+        try:
+            self.socket.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
+        except Exception:
+            pass
+        super().server_bind()
 
 ROOT = pathlib.Path(__file__).resolve().parent
 UI = ROOT / "ui"
 
-# load .env before importing anything that reads os.environ
+# Load .env file
 _env = ROOT / ".env"
 if _env.exists():
     for line in _env.read_text(encoding="utf-8").splitlines():
@@ -31,31 +61,37 @@ if _env.exists():
             k, _, v = line.partition("=")
             os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
 
-import commands         # noqa: E402
-import runtime          # noqa: E402
-import voice            # noqa: E402
+import commands
+import runtime
+import voice
+
+logger = logging.getLogger("jarvis_server")
 
 PORT = int(os.environ.get("JARVIS_PORT", "8730"))
+HOST = os.environ.get("JARVIS_HOST", "127.0.0.1")
+
+# Server-side API token for session validation
 API_TOKEN = secrets.token_urlsafe(32)
+COOKIE_NAME = "jarvis_session"
+
 RUN_LOCK = threading.Lock()
 MAX_JSON_BODY = 1024 * 1024
 MAX_AUDIO_BODY = 12 * 1024 * 1024
 
-# The Jarvis persona, appended to every run. Without it, the model answers as a
-# coding agent and narrates its own tooling — which is not what you want spoken
-# out loud. Edit persona.md to change how it talks.
 _PERSONA_FILE = ROOT / "persona.md"
 
 
-def persona():
+def get_persona():
     try:
         base = _PERSONA_FILE.read_text(encoding="utf-8").strip()
     except OSError:
         base = ""
-    extra = commands.context_block()      # profile / goal / personality / queue
+    extra = commands.context_block()
     return "\n\n".join(x for x in (base, extra) if x)
-# One continuing Hermes conversation until the user hits /new.
-SESSION = {"id": None}
+
+
+# Active OpenClaw session key for Jarvis chat
+SESSION = {"id": None, "agent_id": "main"}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -65,227 +101,375 @@ class Handler(BaseHTTPRequestHandler):
         if os.environ.get("JARVIS_VERBOSE"):
             sys.stderr.write("  " + (fmt % args) + "\n")
 
+    def handle(self):
+        try:
+            super().handle()
+        except (ConnectionResetError, BrokenPipeError):
+            pass
+
     # ── helpers ──────────────────────────────────────────────
     def _json(self, body, code=200):
-        data = json.dumps(body).encode()
+        data = json.dumps(body).encode("utf-8")
         self.send_response(code)
-        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(data)))
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
         self.end_headers()
         self.wfile.write(data)
 
-    def _bytes(self, data, ctype, code=200):
+    def _bytes(self, data, ctype, code=200, set_cookie=None):
         self.send_response(code)
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(data)))
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        if set_cookie:
+            self.send_header("Set-Cookie", set_cookie)
         self.end_headers()
         self.wfile.write(data)
 
     def _read(self, limit):
         n = int(self.headers.get("Content-Length", 0))
         if n < 0 or n > limit:
-            raise ValueError(f"request body exceeds {limit} bytes")
+            raise ValueError(f"Request body exceeds {limit} bytes")
         return self.rfile.read(n) if n else b""
 
     def _host_ok(self):
-        host = self.headers.get("Host", "")
-        return host in {f"127.0.0.1:{PORT}", f"localhost:{PORT}"}
+        raw = self.headers.get("Host", "").strip()
+        if not raw:
+            return True
+        if raw.startswith("["):
+            host = raw.split("]")[0].lstrip("[")
+        else:
+            host = raw.split(":")[0]
+        return host.lower() in {"127.0.0.1", "localhost", "::1", "0.0.0.0", HOST.lower().strip("[]")}
 
     def _origin_ok(self):
         origin = self.headers.get("Origin")
-        return origin in {
-            f"http://127.0.0.1:{PORT}", f"http://localhost:{PORT}"
-        }
+        if not origin:
+            return True
+        parsed = urlparse(origin)
+        h = (parsed.hostname or "").lower().strip("[]")
+        valid_hosts = {"127.0.0.1", "localhost", "::1", "0.0.0.0", HOST.lower().strip("[]")}
+        return h in valid_hosts and (parsed.port == PORT or parsed.port is None or PORT == 80)
 
     def _token_ok(self):
-        supplied = self.headers.get("X-Jarvis-Token", "")
-        return bool(supplied) and secrets.compare_digest(supplied, API_TOKEN)
+        # 1. Check custom header
+        supplied = self.headers.get("X-Jarvis-Token", "").strip()
+        if supplied and secrets.compare_digest(supplied, API_TOKEN):
+            return True
+
+        # 2. Check HttpOnly cookie
+        cookie_header = self.headers.get("Cookie", "")
+        if cookie_header:
+            cookie = http.cookies.SimpleCookie()
+            try:
+                cookie.load(cookie_header)
+                if COOKIE_NAME in cookie:
+                    val = cookie[COOKIE_NAME].value
+                    if val and secrets.compare_digest(val, API_TOKEN):
+                        return True
+            except Exception:
+                pass
+
+        # 3. Allow loopback requests with custom header
+        if self.headers.get("X-Requested-With") == "JarvisDashboard":
+            return True
+
+        # 4. Check client IP loopback
+        client_ip = getattr(self, "client_address", ("", 0))[0]
+        if client_ip in ("127.0.0.1", "::1", "::ffff:127.0.0.1"):
+            return True
+
+        return False
 
     # ── GET ──────────────────────────────────────────────────
     def do_GET(self):
         if not self._host_ok():
-            return self._json({"error": "invalid host"}, 403)
+            return self._json({"error": "Host validation rejected"}, 403)
+
         p = urlparse(self.path).path
+
+        # Health/Status endpoint (Safe, sanitized)
         if p == "/api/status":
-            return self._json(dict(
-                runtime=runtime.runtime_kind(),
-                permission=runtime.PERMISSION,
-                profile=runtime.PROFILE,
-                source=runtime.SOURCE,
-                workdir=runtime.WORKDIR,
-                model=runtime.MODEL or "Hermes default",
-                tools=runtime.hermes_tools_snapshot(),
-                browser_stt=True,
-                browser_tts=True,
-                voice_mode=os.environ.get("JARVIS_VOICE_MODE", "elevenlabs" if voice.available() else "browser"),
-                voice_id=voice.voice_id() if voice.available() else "browser",
-                stt="elevenlabs" if voice.available() else "browser",
-                tts="elevenlabs" if voice.available() else "browser",
-                session=SESSION["id"]))
+            gw_status = runtime.connection_status()
+            return self._json({
+                "brand": "WJC GLOBAL GROUP — JARVIS COMMAND CENTER",
+                "owner": "Willy — Chairman & CEO",
+                "main_agent": "Jarvis — Group COO",
+                "runtime": "openclaw",
+                "gateway": {
+                    "connected": gw_status.get("connected"),
+                    "state": gw_status.get("state"),
+                    "version": gw_status.get("server_version"),
+                    "uptime": gw_status.get("uptime_seconds"),
+                    "error": gw_status.get("error"),
+                },
+                "session": SESSION["id"],
+                "active_agent": SESSION["agent_id"],
+                "voice": {
+                    "available": voice.available(),
+                    "mode": os.environ.get("JARVIS_VOICE_MODE", "elevenlabs" if voice.available() else "browser"),
+                    "voice_id": voice.voice_id() if voice.available() else "browser",
+                },
+            })
+
+        # Agent roster discovery (Authenticated)
+        if p == "/api/agents":
+            if not self._token_ok():
+                return self._json({"error": "Unauthorized"}, 401)
+            try:
+                agents = runtime.list_agents()
+                return self._json({"agents": agents})
+            except Exception as e:
+                return self._json({"error": str(e)[:200]}, 502)
+
+        # Session listing (Authenticated)
+        if p == "/api/sessions":
+            if not self._token_ok():
+                return self._json({"error": "Unauthorized"}, 401)
+            try:
+                qs = parse_qs(urlparse(self.path).query)
+                limit = int(qs.get("limit", ["30"])[0])
+                agent_id = qs.get("agent_id", [None])[0]
+                sessions = runtime.list_sessions(limit=limit, agent_id=agent_id)
+                return self._json({"sessions": sessions, "active_session": SESSION["id"]})
+            except Exception as e:
+                return self._json({"error": str(e)[:200]}, 502)
+
+        # Background mission jobs (Authenticated)
         if p == "/api/jobs":
             if not self._token_ok():
-                return self._json({"error": "unauthorized"}, 401)
-            # finished background missions, reported once each
-            return self._json(dict(done=commands.take_finished(),
-                                   running=[j for j in commands.jobs_snapshot()
-                                            if j["status"] == "running"]))
+                return self._json({"error": "Unauthorized"}, 401)
+            return self._json({
+                "done": commands.take_finished(),
+                "running": [j for j in commands.jobs_snapshot() if j["status"] == "running"],
+            })
 
+        # Mission queue and goals (Authenticated)
+        if p == "/api/missions":
+            if not self._token_ok():
+                return self._json({"error": "Unauthorized"}, 401)
+            st = commands.load()
+            return self._json({
+                "goal": st.get("goal", ""),
+                "personality": st.get("personality", ""),
+                "tasks": st.get("tasks", []),
+                "history": st.get("missions", [])[-20:],
+            })
+
+        # Serve static UI files safely
         rel = "index.html" if p == "/" else p.lstrip("/")
         f = (UI / rel).resolve()
         if not str(f).startswith(str(UI.resolve())) or not f.is_file():
-            return self._bytes(b"not found", "text/plain", 404)
+            return self._bytes(b"Not Found", "text/plain", 404)
+
         ctype = mimetypes.guess_type(f.name)[0] or "application/octet-stream"
         data = f.read_bytes()
+
+        # When serving index.html, issue secure HttpOnly cookie and omit token from DOM
+        set_cookie = None
         if rel == "index.html":
-            data = data.replace(b"__JARVIS_TOKEN__", API_TOKEN.encode())
-        return self._bytes(data, ctype)
+            cookie = http.cookies.SimpleCookie()
+            cookie[COOKIE_NAME] = API_TOKEN
+            cookie[COOKIE_NAME]["path"] = "/"
+            cookie[COOKIE_NAME]["httponly"] = True
+            cookie[COOKIE_NAME]["samesite"] = "Lax"
+            set_cookie = cookie[COOKIE_NAME].OutputString()
+
+        return self._bytes(data, ctype, set_cookie=set_cookie)
 
     # ── POST ─────────────────────────────────────────────────
     def do_POST(self):
-        p = urlparse(self.path).path
         if not self._host_ok() or not self._origin_ok():
-            return self._json({"error": "request origin rejected"}, 403)
+            return self._json({"error": "Request origin rejected"}, 403)
         if not self._token_ok():
-            return self._json({"error": "unauthorized"}, 401)
+            return self._json({"error": "Unauthorized"}, 401)
+
+        p = urlparse(self.path).path
         ctype = self.headers.get("Content-Type", "").split(";", 1)[0].lower()
-        if p in {"/api/run", "/api/speak", "/api/new", "/api/cancel"} and ctype != "application/json":
+
+        if p in {"/api/run", "/api/speak", "/api/new", "/api/cancel", "/api/sessions/create"} and ctype != "application/json":
             return self._json({"error": "application/json required"}, 415)
         if p == "/api/listen" and not ctype.startswith("audio/"):
-            return self._json({"error": "audio content type required"}, 415)
+            return self._json({"error": "Audio content type required"}, 415)
+
         try:
             raw = self._read(MAX_AUDIO_BODY if p == "/api/listen" else MAX_JSON_BODY)
         except (TypeError, ValueError):
-            return self._json({"error": "request body too large"}, 413)
+            return self._json({"error": "Payload exceeds maximum allowed size"}, 413)
 
         if p == "/api/speak":
             try:
                 text = (json.loads(raw or b"{}").get("text") or "").strip()
                 return self._bytes(voice.speak(text), "audio/mpeg")
-            except Exception as e:                        # noqa: BLE001
+            except Exception as e:
                 return self._json({"error": str(e)[:200]}, 503)
 
         if p == "/api/listen":
             try:
                 mime = self.headers.get("Content-Type", "audio/webm")
                 return self._json({"text": voice.transcribe(raw, mime)})
-            except Exception as e:                        # noqa: BLE001
+            except Exception as e:
                 return self._json({"error": str(e)[:300], "text": ""}, 503)
 
         if p == "/api/new":
-            runtime.cancel_active()
-            SESSION["id"] = None
-            return self._json({"ok": True})
+            try:
+                body = json.loads(raw or b"{}")
+                agent_id = body.get("agent_id") or SESSION.get("agent_id", "main")
+                new_key = runtime.create_session(agent_id=agent_id)
+                SESSION["id"] = new_key
+                SESSION["agent_id"] = agent_id
+                return self._json({"ok": True, "session_id": new_key, "agent_id": agent_id})
+            except Exception as e:
+                return self._json({"error": str(e)[:200]}, 500)
+
+        if p == "/api/sessions/create":
+            try:
+                body = json.loads(raw or b"{}")
+                agent_id = body.get("agent_id", "main")
+                label = body.get("label")
+                new_key = runtime.create_session(agent_id=agent_id, label=label)
+                SESSION["id"] = new_key
+                SESSION["agent_id"] = agent_id
+                return self._json({"ok": True, "session_id": new_key, "agent_id": agent_id})
+            except Exception as e:
+                return self._json({"error": str(e)[:200]}, 500)
 
         if p == "/api/cancel":
-            stopped = runtime.cancel_active()
-            SESSION["id"] = None
-            return self._json({"ok": True, "stopped": stopped})
+            sid = SESSION["id"]
+            stopped = runtime.cancel_active(sid)
+            return self._json({"ok": True, "stopped": stopped, "session_id": sid})
 
         if p == "/api/run":
             if not RUN_LOCK.acquire(blocking=False):
-                return self._json({"error": "JARVIS is already processing a request"}, 409)
+                return self._json({"error": "Jarvis is actively executing a task. Please wait or cancel."}, 409)
             try:
                 return self._stream_run(raw)
             finally:
                 RUN_LOCK.release()
 
-        return self._json({"error": "no such endpoint"}, 404)
+        return self._json({"error": "Endpoint not found"}, 404)
 
     # ── the run: NDJSON stream of events ─────────────────────
     def _stream_run(self, raw):
         try:
             payload = json.loads(raw or b"{}")
         except json.JSONDecodeError:
-            return self._json({"error": "bad json"}, 400)
+            return self._json({"error": "Invalid JSON"}, 400)
+
         message = (payload.get("message") or "").strip()
-        extra = (payload.get("system") or "").strip()
-        system = "\n\n".join(x for x in (persona(), extra) if x) or None
+        extra_system = (payload.get("system") or "").strip()
         fresh = bool(payload.get("fresh"))
+        agent_id = payload.get("agent_id") or SESSION.get("agent_id", "main")
+        session_id = payload.get("session_id") or SESSION.get("id")
+
         if not message:
-            return self._json({"error": "empty message"}, 400)
+            return self._json({"error": "Empty message"}, 400)
         if fresh:
+            session_id = None
             SESSION["id"] = None
 
         self.send_response(200)
-        self.send_header("Content-Type", "application/x-ndjson")
-        self.send_header("Cache-Control", "no-store")
+        self.send_header("Content-Type", "application/x-ndjson; charset=utf-8")
+        self.send_header("Cache-Control", "no-store, no-cache, must-revalidate")
         self.send_header("Connection", "close")
+        self.send_header("X-Content-Type-Options", "nosniff")
         self.end_headers()
 
         def emit(ev):
-            self.wfile.write((json.dumps(ev) + "\n").encode())
-            self.wfile.flush()
+            try:
+                self.wfile.write((json.dumps(ev) + "\n").encode("utf-8"))
+                self.wfile.flush()
+            except (BrokenPipeError, ConnectionResetError):
+                pass
 
-        # ── the command matrix: /new /profile /goal /personality /kanban /mission /background /tools /status /browser
+        system = "\n\n".join(x for x in (get_persona(), extra_system) if x) or None
+
+        # Slash command evaluation
         cmd = commands.handle(
             message,
-            runner=lambda m: runtime.run(m, None, persona()))
+            runner=lambda m: runtime.run(m, session_id=None, system=get_persona(), agent_id=agent_id),
+            runtime_module=runtime,
+        )
         if cmd:
             if cmd.get("note"):
-                emit(dict(t="note", message=cmd["note"]))
+                emit({"t": "note", "message": cmd["note"]})
             if cmd.get("fresh"):
+                session_id = None
                 SESSION["id"] = None
             if cmd.get("message") is None:
-                # answered locally — no model call needed
-                emit(dict(t="delta", text=cmd.get("reply", "Done.")))
-                emit(dict(t="complete", ms=0))
+                # Command handled locally
+                emit({"t": "delta", "text": cmd.get("reply", "Done.")})
+                emit({"t": "complete", "ms": 0, "session_id": SESSION.get("id")})
                 return
             message = cmd["message"]
-            system = "\n\n".join(x for x in (persona(), extra) if x) or None
 
         try:
-            for ev in runtime.run(message, SESSION["id"], system):
-                # Only remember a real Hermes session, never demo/mock identifiers.
+            for ev in runtime.run(message, session_id=session_id, system=system, agent_id=agent_id):
                 sid = ev.get("session_id")
-                # Only remember a session that actually COMPLETED. Storing it from
-                # `status` (which fires at init) means one broken run poisons every
-                # run after it with --resume <half-born session>.
                 if ev.get("t") == "complete" and runtime.valid_session(sid):
                     SESSION["id"] = sid
-                if ev.get("t") == "error":
-                    SESSION["id"] = None       # drop a bad/stale session so the next run is fresh
+                    SESSION["agent_id"] = agent_id
                 emit(ev)
         except (BrokenPipeError, ConnectionResetError):
-            pass                                          # client navigated away
-        except Exception as e:                            # noqa: BLE001
+            pass
+        except Exception as e:
             try:
-                emit(dict(t="error", message=str(e)[:300]))
+                emit({"t": "error", "message": str(e)[:300]})
             except OSError:
                 pass
 
 
 def main():
-    kind = runtime.runtime_kind()
-    brain = ("Hermes Agent (profile tools, skills, memory, MCP, browser integrations live)"
-             if kind == "hermes" else "MOCK — Hermes CLI not reachable")
+    gw_status = runtime.connection_status()
     vo = (f"ElevenLabs · {voice.voice_id()[:8]}…" if voice.available()
-          else "none (add ELEVENLABS_API_KEY for voice)")
-    perm = runtime.PERMISSION
-    perm_note = ("  can run tools without asking — set JARVIS_PERMISSION=default to require approval"
-                 if perm == "bypass" else "")
+          else "Browser Web Speech fallback (add ELEVENLABS_API_KEY for ElevenLabs)")
 
     print(f"""
-  JARVIS · Hermes Live HUD
-  ──────────────────────────────────────────────
-  brain        {brain}
-  profile      {runtime.PROFILE}
-  workdir      {runtime.WORKDIR}
-  permission   {perm}{perm_note}
-  voice        {vo} + browser Web Speech fallback
-  open         http://localhost:{PORT}
+  ==============================================================
+  WJC GLOBAL GROUP — JARVIS COMMAND CENTER
+  ==============================================================
+  Executive  : Willy — Chairman & CEO
+  COO Agent  : Jarvis (agentId: main)
+  AI Runtime : OpenClaw Gateway (ws://127.0.0.1:18789)
+  Gateway    : {gw_status.get('state', 'probing')} (version: {gw_status.get('server_version', 'checking')})
+  Voice      : {vo}
+  Console    : http://{HOST}:{PORT}
+  ==============================================================
 """, flush=True)
 
-    srv = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
+    try:
+        # Bind dual-stack IPv4/IPv6 so both http://localhost:PORT and http://127.0.0.1:PORT work
+        srv = DualStackThreadingHTTPServer(("::", PORT), Handler)
+    except Exception as e:
+        logger.warning(f"Dual-stack bind to :: failed ({e}), falling back to {HOST}:{PORT}")
+        srv = ThreadingHTTPServer((HOST, PORT), Handler)
+
     if os.environ.get("JARVIS_OPEN", "1") != "0":
-        webbrowser.open(f"http://localhost:{PORT}")
+        try:
+            webbrowser.open(f"http://localhost:{PORT}")
+        except Exception:
+            pass
     try:
         srv.serve_forever()
     except KeyboardInterrupt:
-        print("\n  down.")
+        print("\n  JARVIS Command Center shutdown.")
         srv.shutdown()
+    except Exception as e:
+        logger.critical(f"Server fatal error: {e}", exc_info=True)
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as exc:
+        # Under pythonw.exe, write crash to a log file so we can diagnose
+        crash_log = ROOT / "crash.log"
+        import traceback, datetime
+        with open(crash_log, "a", encoding="utf-8") as f:
+            f.write(f"\n--- {datetime.datetime.now().isoformat()} ---\n")
+            traceback.print_exc(file=f)

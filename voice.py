@@ -1,37 +1,40 @@
 """
-Text to speech.
+Voice synthesis and speech transcription module for WJC GLOBAL GROUP — JARVIS COMMAND CENTER.
 
-ElevenLabs when a key is present, browser speechSynthesis otherwise.
-
-The key stays here, server-side. The browser asks /api/speak for audio and gets
-mp3 bytes back — it never sees the key, so nothing leaks into devtools, the
-page source, or a screen recording.
+Server-side proxy for ElevenLabs Text-to-Speech (TTS) and Speech-to-Text (STT).
+All API keys and credentials remain strictly server-side.
+When ElevenLabs is unconfigured, the frontend automatically falls back to browser Web Speech API.
 """
 import json
 import os
 import urllib.error
 import urllib.request
 
-# Rachel — calm, British-adjacent. Override with ELEVENLABS_VOICE_ID.
+# Default voice: Rachel or configured voice ID
 DEFAULT_VOICE = "21m00Tcm4TlvDq8ikWAM"
 MODEL = os.environ.get("ELEVENLABS_MODEL", "eleven_turbo_v2_5")
 
 
 def available():
+    """Check if ElevenLabs API key is configured."""
     return bool(os.environ.get("ELEVENLABS_API_KEY"))
 
 
 def voice_id():
+    """Active ElevenLabs voice ID."""
     return os.environ.get("ELEVENLABS_VOICE_ID", DEFAULT_VOICE)
 
 
 def speak(text):
-    """Returns mp3 bytes, or raises. Caller decides what to do on failure."""
+    """
+    Synthesize speech via ElevenLabs API.
+    Returns mp3 bytes.
+    """
     if not available():
-        raise RuntimeError("no ELEVENLABS_API_KEY")
+        raise RuntimeError("ELEVENLABS_API_KEY is not configured on the server.")
     text = (text or "").strip()
     if not text:
-        raise ValueError("empty text")
+        raise ValueError("Cannot synthesize empty text.")
 
     req = urllib.request.Request(
         f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id()}",
@@ -39,12 +42,12 @@ def speak(text):
             "text": text[:2500],
             "model_id": MODEL,
             "voice_settings": {
-                "stability": 0.42,          # a little variation; 0.5+ goes flat
+                "stability": 0.45,
                 "similarity_boost": 0.85,
-                "style": 0.25,
+                "style": 0.20,
                 "use_speaker_boost": True,
             },
-        }).encode(),
+        }).encode("utf-8"),
         method="POST",
         headers={
             "content-type": "application/json",
@@ -57,28 +60,26 @@ def speak(text):
 
 
 def transcribe(audio, mime="audio/webm"):
-    """Speech to text via ElevenLabs Scribe. Returns the transcript, or raises.
-
-    Used instead of the browser's Web Speech API because that one only exists in
-    Chrome and is a silently-failing stub in Brave — and because it ships your
-    audio to Google. This keeps listening on the same provider as speaking.
+    """
+    Transcribe audio via ElevenLabs speech-to-text.
+    Returns transcribed string.
     """
     if not available():
-        raise RuntimeError("no ELEVENLABS_API_KEY")
+        raise RuntimeError("ELEVENLABS_API_KEY is not configured on the server.")
     if not audio:
-        raise ValueError("empty audio")
+        raise ValueError("Audio buffer is empty.")
 
     ext = {"audio/webm": "webm", "audio/ogg": "ogg", "audio/mp4": "mp4",
            "audio/mpeg": "mp3", "audio/wav": "wav"}.get(mime.split(";")[0], "webm")
     boundary = "----jarvis" + os.urandom(8).hex()
-    b = boundary.encode()
+    b = boundary.encode("utf-8")
 
     body = b"".join([
         b"--", b, b"\r\n",
         b'Content-Disposition: form-data; name="model_id"\r\n\r\nscribe_v1\r\n',
         b"--", b, b"\r\n",
-        f'Content-Disposition: form-data; name="file"; filename="turn.{ext}"\r\n'.encode(),
-        f"Content-Type: {mime}\r\n\r\n".encode(),
+        f'Content-Disposition: form-data; name="file"; filename="audio.{ext}"\r\n'.encode("utf-8"),
+        f"Content-Type: {mime}\r\n\r\n".encode("utf-8"),
         audio, b"\r\n",
         b"--", b, b"--\r\n",
     ])
@@ -92,11 +93,11 @@ def transcribe(audio, mime="audio/webm"):
         },
     )
     with urllib.request.urlopen(req, timeout=45) as r:
-        return (json.loads(r.read()).get("text") or "").strip()
+        return (json.loads(r.read().decode("utf-8")).get("text") or "").strip()
 
 
 def voices():
-    """List the account's voices, so you can find an id to put in .env."""
+    """List account voices for configuration discovery."""
     if not available():
         return []
     req = urllib.request.Request(
@@ -105,9 +106,14 @@ def voices():
     )
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
-            body = json.loads(r.read())
-    except Exception:                                  # noqa: BLE001
+            body = json.loads(r.read().decode("utf-8"))
+    except Exception:
         return []
-    return [dict(id=v.get("voice_id"), name=v.get("name"),
-                 labels=v.get("labels", {}))
-            for v in body.get("voices", [])]
+    return [
+        {
+            "id": v.get("voice_id"),
+            "name": v.get("name"),
+            "labels": v.get("labels", {}),
+        }
+        for v in body.get("voices", [])
+    ]

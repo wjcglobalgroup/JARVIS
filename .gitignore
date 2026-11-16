@@ -1,5 +1,11 @@
 .env
 state.json
-.no-mcp.json
+.venv/
 __pycache__/
 *.pyc
+*.tmp
+*.log
+*.bak
+test_*.py
+.DS_Store
+Thumbs.db
