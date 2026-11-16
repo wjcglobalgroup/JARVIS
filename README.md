@@ -44,7 +44,7 @@ Jarvis is the Group's operational coordinator—not the owner and not a replacem
 
 | Agent | Agent ID | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- |
-| **Marco** | `marco` | **Crypto Research & Intelligence Analyst** | Researches crypto markets, macroeconomic developments, narratives, and relevant intelligence. Supplies research and analysis to the content workflow. |
+
 | **Vera** | `vera` | **STZ Crypto Content Scriptwriter** | Converts Marco's research and approved Notion briefs into publish-ready scripts. Maintains the script handoff in Notion. Vera is a writing role: she does not generate videos or images and does not own the Google Drive production workflow. |
 | **Vortex** | `vortex` | **STZ Video & Visual Production Editor** | Retrieves Vera's approved Notion scripts, produces video and image assets, uses Google Flow for video generation, manages production assets in Google Drive, and hands final deliverables to Moddy. |
 | **Moddy** | `moddy` | **STZ Social Media Operations Manager** | Owns publishing operations and community management for STZ; prepares and publishes approved content, monitors platform activity, manages comments/community workflows, and reports publishing results. |
@@ -52,9 +52,6 @@ Jarvis is the Group's operational coordinator—not the owner and not a replacem
 **STZ production handoff**
 
 ```text
-Marco (research & intelligence)
-        |
-        v
 Vera (scriptwriting + Notion handoff)
         |
         v
@@ -64,14 +61,13 @@ Vortex (video/image production + Drive assets)
 Moddy (publishing + community operations)
 ```
 
-- **Research ownership:** Marco.
 - **Script ownership:** Vera.
 - **Video and visual production ownership:** Vortex.
 - **Publishing and community ownership:** Moddy.
 - **Publishing authorization:** Moddy must follow the owner's approval requirements. Default permission is read/draft; publishing requires explicit authorization for the relevant platform, account, operation, and content. A connected account is not, by itself, permission to publish.
 
 **Integration boundaries (STZ):**
-- Vera's workflow is Notion-based; she is not the Drive production operator.
+- Vera's workflow is Notion-based; she is not the Drive production operator. Her STZ script briefs must use approved STZ research inputs; Marco's primary organizational assignment is Trading & Investment.
 - Vortex uses Notion for approved scripts and Google Drive for production assets. Google Flow is the designated video-generation workflow.
 - Moddy's intended Composio-connected publishing/operations apps are Facebook Page, YouTube, Instagram, Google Drive, and Google Calendar. Binance Square is connected directly through its API; Notion is accessed through the OpenClaw Notion MCP integration. Actual availability and permissions must be checked in the running environment.
 
@@ -79,9 +75,12 @@ Moddy (publishing + community operations)
 
 | Agent | Agent ID | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- |
+| **Marco** | `marco` | **Trading Macro & Market Intelligence Analyst** | Monitors macroeconomic conditions and crypto-market intelligence; produces the macro-gate assessment used by the trading operation; sends actionable macro context and gate results to the designated trading Discord channel; supports Sniper's market decisions. Marco belongs to Trading & Investment, not STZ Crypto Media. |
 | **Sniper** | `sniper` | **SMC Crypto Trader** | Scans crypto markets for deterministic Smart Money Concepts (SMC) setups; evaluates market structure, liquidity sweeps, market structure shifts, order blocks, entries, and risk; uses LLM interpretation after a potential setup is found; executes only when configured trading and risk gates permit; monitors open positions and trade management rules. |
 
-Sniper is the trading specialist—not a media editor. Trading execution must remain subject to explicit account configuration, risk controls, and the owner's authorization. A detected setup is not a guarantee of profit.
+**Trading team responsibilities:** Marco owns macro research and the macro-environment gate; Sniper owns SMC setup detection, trade evaluation, execution logic, and open-position management. Marco's macro assessment informs the trading workflow but does not replace Sniper's deterministic setup and risk checks.
+
+Sniper is the execution-focused trading specialist—not a media editor. Trading execution must remain subject to explicit account configuration, risk controls, and the owner's authorization. A detected setup is not a guarantee of profit.
 
 ### OFW Media
 
