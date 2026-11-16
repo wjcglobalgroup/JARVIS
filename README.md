@@ -106,9 +106,9 @@ June (publishing and social media operations)
 
 | Agent | Agent ID | Status | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- | :--- |
-| **Kyle** | Pending runtime confirmation | **Planned** | **Transport & Van Rental Customer Service Agent** | Supports Kaixin Transport inquiries and reservations. Communicates in Tagalog/Filipino by default; handles Nissan NV350 van rental inquiries for 15–18 passengers with a driver (no self-drive); gathers booking date, number of days, pickup and drop-off locations, and trip details; supports outings, swimming trips, tours, airport transfers, weddings, and baptisms. |
+| **Kyle** | `kyle` | **Existing in OpenClaw** | **Transport & Van Rental Customer Service Agent** | Supports Kaixin Transport inquiries and reservations. Communicates in Tagalog/Filipino by default; handles Nissan NV350 van rental inquiries for 15–18 passengers with a driver (no self-drive); gathers booking date, number of days, pickup and drop-off locations, and trip details; supports outings, swimming trips, tours, airport transfers, weddings, and baptisms. |
 
-**Deployment note:** Kyle is documented as the planned agent for Kaixin Transport. Do not assign an active OpenClaw agent ID or report the agent as operational until it has been created and verified in the runtime.
+**Runtime note:** Kyle already exists in OpenClaw. This confirms the agent is present in the runtime; it does not, by itself, certify that every Kaixin Transport workflow or integration is production-ready.
 
 ---
 
