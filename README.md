@@ -2,28 +2,136 @@
 
 [![Repository](https://img.shields.io/badge/GitHub-wjcglobalgroup%2FJARVIS-cyan.svg)](https://github.com/wjcglobalgroup/JARVIS)
 [![Architecture](https://img.shields.io/badge/Architecture-OpenClaw%20Gateway%20Native%20v4-blue.svg)](#architecture)
-[![Executive](https://img.shields.io/badge/Principal-Willy%20%7C%20Chairman%20%26%20CEO-gold.svg)](#executive-roster)
-[![Main Agent](https://img.shields.io/badge/COO-Jarvis%20%28agentId%3A%20main%29-teal.svg)](#verified-corporate-agent-directory)
+[![Executive](https://img.shields.io/badge/Principal-Willy%20%7C%20Chairman%20%26%20CEO-gold.svg)](#leadership-and-command)
 
-An enterprise-grade executive AI command center for **WJC GLOBAL GROUP**, powered by a direct, native integration with the **OpenClaw Gateway (Protocol v4 over WebSocket)**.
+The executive command center for **WJC GLOBAL GROUP**, powered by a direct integration with the **OpenClaw Gateway (Protocol v4 over WebSocket)**.
 
-- **Principal / Owner:** Willy — Chairman & CEO, WJC GLOBAL GROUP
-- **Chief AI Operating Officer:** Jarvis (`main`) — Group COO
-- **Official Repository:** [https://github.com/wjcglobalgroup/JARVIS](https://github.com/wjcglobalgroup/JARVIS)
-- **Local Console:** [http://127.0.0.1:8730](http://127.0.0.1:8730) (IPv4/IPv6 Dual-Stack)
+- **Chairman & CEO:** Willy — owner and final executive authority.
+- **Group COO:** Jarvis (`main`) — coordinates daily operations across the Group's divisions and agent teams.
+- **Repository:** [wjcglobalgroup/JARVIS](https://github.com/wjcglobalgroup/JARVIS)
+- **Local Console:** [http://127.0.0.1:8730](http://127.0.0.1:8730)
+
+> **Roster accuracy:** This README documents the intended organizational responsibilities. Agent IDs shown below are the configured/conventional IDs currently documented for known agents; the KYLEXINE agent is marked planned and must not be treated as deployed until confirmed in the OpenClaw runtime.
 
 ---
 
-## 1. Executive Architecture
+## 1. Leadership and Command
 
-The Command Center connects directly to the OpenClaw Gateway runtime over WebSocket (Protocol v4) with full operator credentials, session persistence, and real-time token streaming:
+| Person / Agent | Title | Accountability |
+| :--- | :--- | :--- |
+| **Willy** | **Chairman & CEO** | Sets Group direction, approves strategic decisions, and retains final authority over business-critical actions. |
+| **Jarvis** (`main`) | **Group Chief Operating Officer (COO)** | Coordinates daily execution across divisions, assigns work to specialist agents, tracks handoffs and blockers, and reports operational outcomes to the Chairman. |
 
+Jarvis is the Group's operational coordinator—not the owner and not a replacement for the specialist agents. Each specialist remains responsible for its assigned function. Jarvis coordinates priorities, dependencies, and cross-division execution.
+
+---
+
+## 2. Corporate Structure and Agent Directory
+
+### Executive Office
+
+| Agent | Agent ID | Official Role | Primary Responsibilities |
+| :--- | :--- | :--- | :--- |
+| **Jarvis** | `main` | **Group COO** | Daily Group operations; agent coordination; mission delegation; cross-division follow-up; escalation of blockers; executive reporting to Willy. |
+
+### Technology & Automation
+
+| Agent | Agent ID | Official Role | Primary Responsibilities |
+| :--- | :--- | :--- | :--- |
+| **Coddy** | `coddy` | **Development Engineer** | Software engineering, application development, debugging, integrations, infrastructure automation, and technical implementation. Jarvis coordinates priorities and delivery. |
+
+### STZ Crypto Media
+
+| Agent | Agent ID | Official Role | Primary Responsibilities |
+| :--- | :--- | :--- | :--- |
+| **Marco** | `marco` | **Crypto Research & Intelligence Analyst** | Researches crypto markets, macroeconomic developments, narratives, and relevant intelligence. Supplies research and analysis to the content workflow. |
+| **Vera** | `vera` | **STZ Crypto Content Scriptwriter** | Converts Marco's research and approved Notion briefs into publish-ready scripts. Maintains the script handoff in Notion. Vera is a writing role: she does not generate videos or images and does not own the Google Drive production workflow. |
+| **Vortex** | `vortex` | **STZ Video & Visual Production Editor** | Retrieves Vera's approved Notion scripts, produces video and image assets, uses Google Flow for video generation, manages production assets in Google Drive, and hands final deliverables to Moddy. |
+| **Moddy** | `moddy` | **STZ Social Media Operations Manager** | Owns publishing operations and community management for STZ; prepares and publishes approved content, monitors platform activity, manages comments/community workflows, and reports publishing results. |
+
+**STZ production handoff**
+
+```text
+Marco (research & intelligence)
+        |
+        v
+Vera (scriptwriting + Notion handoff)
+        |
+        v
+Vortex (video/image production + Drive assets)
+        |
+        v
+Moddy (publishing + community operations)
 ```
+
+- **Research ownership:** Marco.
+- **Script ownership:** Vera.
+- **Video and visual production ownership:** Vortex.
+- **Publishing and community ownership:** Moddy.
+- **Publishing authorization:** Moddy must follow the owner's approval requirements. Default permission is read/draft; publishing requires explicit authorization for the relevant platform, account, operation, and content. A connected account is not, by itself, permission to publish.
+
+**Integration boundaries (STZ):**
+- Vera's workflow is Notion-based; she is not the Drive production operator.
+- Vortex uses Notion for approved scripts and Google Drive for production assets. Google Flow is the designated video-generation workflow.
+- Moddy's intended Composio-connected publishing/operations apps are Facebook Page, YouTube, Instagram, Google Drive, and Google Calendar. Binance Square is connected directly through its API; Notion is accessed through the OpenClaw Notion MCP integration. Actual availability and permissions must be checked in the running environment.
+
+### Trading & Investment
+
+| Agent | Agent ID | Official Role | Primary Responsibilities |
+| :--- | :--- | :--- | :--- |
+| **Sniper** | `sniper` | **SMC Crypto Trader** | Scans crypto markets for deterministic Smart Money Concepts (SMC) setups; evaluates market structure, liquidity sweeps, market structure shifts, order blocks, entries, and risk; uses LLM interpretation after a potential setup is found; executes only when configured trading and risk gates permit; monitors open positions and trade management rules. |
+
+Sniper is the trading specialist—not a media editor. Trading execution must remain subject to explicit account configuration, risk controls, and the owner's authorization. A detected setup is not a guarantee of profit.
+
+### OFW Media
+
+| Agent | Agent ID | Official Role | Primary Responsibilities |
+| :--- | :--- | :--- | :--- |
+| **Nova** | `nova` | **OFW Media Scriptwriter** | Develops OFW-focused content ideas and scripts for the media production pipeline. |
+| **Dave** | `dave` | **OFW Media Video Editor** | Produces and edits video assets from Nova's approved scripts and prepares final media deliverables for publishing. |
+| **June** | `june` | **OFW Media Publisher & Social Media Manager** | Schedules and publishes approved OFW content, manages social media operations, and reports publishing outcomes. |
+
+**OFW production handoff**
+
+```text
+Nova (script)
+   |
+   v
+Dave (video production and QA)
+   |
+   v
+June (publishing and social media operations)
+```
+
+### KYLEXINE Traveler
+
+| Agent | Agent ID | Status | Official Role | Primary Responsibilities |
+| :--- | :--- | :--- | :--- | :--- |
+| **Kylexine** | Pending runtime confirmation | **Planned** | **Travel & Van Rental Customer Service Agent** | Supports KYLEXINE Traveler inquiries and reservations. Communicates in Tagalog/Filipino by default; handles Nissan NV350 van rental inquiries for 15–18 passengers with a driver (no self-drive); gathers booking date, number of days, pickup and drop-off locations, and trip details; supports outings, swimming trips, tours, airport transfers, weddings, and baptisms. |
+
+**Deployment note:** Kylexine is documented as a planned agent. Do not assign an active OpenClaw agent ID or report it as operational until it has been created and verified in the runtime.
+
+---
+
+## 3. Reporting, Handoffs, and Authority
+
+1. **Willy → Jarvis:** Willy sets priorities and retains final executive authority. Jarvis translates approved priorities into coordinated work.
+2. **Jarvis → Specialist Agents:** Jarvis delegates work according to the role boundaries above and tracks delivery, dependencies, and blockers.
+3. **Specialist-to-specialist handoffs:** Agents pass outputs to the next owner in the relevant workflow. The receiving agent owns the next stage; the sending agent does not silently take over that role.
+4. **Approval gates:** External publishing, financial actions, trading execution, and other consequential operations must obey the applicable owner authorization and configured safety controls. Tool access does not imply permission.
+5. **Truthful status reporting:** Distinguish planned, configured, connected, tested, and production-ready states. Never describe an agent, integration, or workflow as verified unless it has been checked in the live environment.
+
+---
+
+## 4. Architecture
+
+The Command Center connects to the OpenClaw Gateway over WebSocket (Protocol v4), supporting session persistence and real-time event streaming.
+
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    WJC GLOBAL GROUP                         │
 │                 JARVIS COMMAND CENTER                       │
-├─────────────────────────────────────────────────────────────┤
-│  Executive HUD: Chat · Agents · Missions · Telemetry        │
+│          Chat · Agents · Missions · Telemetry                │
 └──────────────────────────────┬──────────────────────────────┘
                                │ HTTP / NDJSON Event Stream
                                ▼
@@ -41,77 +149,55 @@ The Command Center connects directly to the OpenClaw Gateway runtime over WebSoc
                                │ Agent Routing
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  JARVIS (Group COO - 'main')                │
-│  Corporate Divisions:                                       │
-│  • Executive Office: Jarvis                                 │
-│  • Technology & Automation: Coddy, Moddy, Vera              │
-│  • STZ Crypto Media & OFW Media: Sniper, Nova, Marco        │
-│  • Trading, Investment & Mobility: Vortex, Dave, June, Kyle │
+│                  JARVIS — GROUP COO                         │
+│       Coordinates the WJC GLOBAL GROUP specialist teams     │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 2. Core Capabilities
+## 5. Core Capabilities
 
-- **100% Native OpenClaw Protocol v4**: Direct, persistent WebSocket integration to the local OpenClaw Gateway on port 18789.
-- **Standalone Windows Background Service**: Configured to run independently in the Windows background via the user Startup folder (`shell:startup`) and desktop shortcuts. Fully isolated from external terminal sessions.
-- **Real-Time Streaming Chat**: Live executive response streaming with token delivery, latency metrics, tool execution feedback, and session continuity.
-- **Enterprise Workforce Directory**: Dynamic discovery of 11 verified corporate agents categorized into 5 operational divisions.
-- **Executive Mission Control**: Real-time management of standing corporate objectives, prioritized mission queue, and asynchronous background operations.
-- **Dynamic 3D Reactor HUD**: Real-time SVG visualizer reflecting live operational states (`STANDBY`, `LISTENING`, `THINKING`, `RESPONDING`, `OFFLINE`, and `ERROR`).
-- **Continuous Voice Briefing**: Hands-free executive voice conversation supporting server-side ElevenLabs or local browser Web Speech API.
-- **Security Hardened**:
-  - OpenClaw Gateway credentials remain strictly isolated server-side.
-  - Zero token exposure in DOM, meta tags, or client-side storage.
-  - SameSite HttpOnly session cookie authentication.
-  - Dual-stack IPv4/IPv6 support (`::` and `127.0.0.1`).
+- **Native OpenClaw Protocol v4:** Direct WebSocket integration with the local OpenClaw Gateway on port 18789.
+- **Windows Background Service:** Supports background startup and desktop shortcuts.
+- **Real-Time Streaming Chat:** Executive chat with streaming responses and session continuity.
+- **Workforce Directory:** Presents the Group's organizational agent roster and role boundaries. Runtime presence should be verified separately.
+- **Executive Mission Control:** Management of objectives, mission queues, and background operations.
+- **Operational Telemetry:** Displays agent and system operational states where available.
+- **Voice Briefing:** Supports configured server-side ElevenLabs or browser Web Speech API voice features.
+- **Security Controls:** Keeps Gateway credentials server-side and uses authenticated sessions and request validation.
 
 ---
 
-## 3. Verified Corporate Agent Directory
-
-| Division | Agent Name | Agent ID | Corporate Role |
-| :--- | :--- | :--- | :--- |
-| **Executive Office** | **Jarvis** | `main` | **Group Chief Operating Officer (COO)** |
-| **Technology & Automation** | **Coddy** | `coddy` | Chief Automation Architect |
-| | **Moddy** | `moddy` | System Integration Specialist |
-| | **Vera** | `vera` | Security & Compliance Auditor |
-| **STZ Crypto Media** | **Sniper** | `sniper` | Market Intelligence & Crypto Editor |
-| | **Nova** | `nova` | Digital Content Strategist |
-| **OFW Digital Media** | **Marco** | `marco` | Community & Media Coordinator |
-| **Trading & Investment** | **Vortex** | `vortex` | Algorithmic Trading Strategist |
-| | **Dave** | `dave` | Portfolio & Risk Analyst |
-| | **June** | `june` | Financial Data Operations |
-| **KYLEXINE Traveler** | **Kyle** | `kyle` | Mobility & Logistics Director |
-
----
-
-## 4. Operation & Management
+## 6. Operation & Management
 
 ### Launching the Dashboard
 
-#### Option A: Windows Background Service (Automatic)
-The service automatically boots on Windows login via:
-```
+#### Option A: Windows Background Service
+
+The service can be configured to start on Windows login through:
+
+```text
 %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\JarvisCommandCenter.vbs
 ```
 
 #### Option B: Desktop Shortcuts
-* **`Start JARVIS Dashboard.bat`** — Launches the background server and opens your browser.
-* **`Stop JARVIS Dashboard.bat`** — Terminates the active server instance.
+
+- **Start JARVIS Dashboard.bat** — launches the background server and opens the browser.
+- **Stop JARVIS Dashboard.bat** — terminates the active server instance.
 
 #### Option C: Manual Command Line
+
 ```cmd
 cd /d "C:\Javis Command Center\jarvis-command-center"
 start.bat
 ```
 
-Access the web interface at **[http://localhost:8730](http://localhost:8730)**.
+Open the web interface at **[http://localhost:8730](http://localhost:8730)**.
 
 ---
 
-## 5. Configuration (`.env`)
+## 7. Configuration (`.env`)
 
 ```ini
 # Dashboard Web Server
@@ -122,7 +208,7 @@ JARVIS_OPEN=1
 # OpenClaw Gateway Integration
 OPENCLAW_GATEWAY_URL=ws://127.0.0.1:18789
 
-# Gateway Operator Token (Auto-discovered from ~/.openclaw/openclaw.json if empty)
+# Gateway Operator Token (auto-discovered from ~/.openclaw/openclaw.json if empty)
 OPENCLAW_GATEWAY_TOKEN=
 
 # Default Agent ID
@@ -136,33 +222,34 @@ ELEVENLABS_MODEL=eleven_turbo_v2_5
 
 ---
 
-## 6. Executive Slash Commands
+## 8. Executive Slash Commands
 
 | Command | Action |
 | :--- | :--- |
 | `/new` | Initialize a fresh OpenClaw session with Jarvis |
-| `/agents` | List verified corporate agents and operational divisions |
+| `/agents` | List agents and operational divisions |
 | `/sessions` | Display active and recent Gateway sessions |
-| `/status` | View OpenClaw Gateway health, server version, and uptime |
+| `/status` | View Gateway health, server version, and uptime |
 | `/goal <text>` | Set, review, or clear the standing executive objective |
 | `/mission [task]` | Add directives to the mission queue or inspect pending tasks |
-| `/background <mission>` | Launch an asynchronous background mission through OpenClaw |
+| `/background <mission>` | Launch an asynchronous background mission |
 | `/browser <task>` | Instruct Jarvis to execute browser automation |
-| `/personality <tone>` | Adjust Jarvis executive tone overlay |
-| `/clear` | Clear the display console (retains OpenClaw session) |
-| `/help` | Show executive command reference |
+| `/personality <tone>` | Adjust Jarvis's tone overlay |
+| `/clear` | Clear the display console while retaining the OpenClaw session |
+| `/help` | Show the command reference |
 
 ---
 
-## 7. Security Architecture
+## 9. Security Architecture
 
-1. **Token Isolation**: The OpenClaw Gateway token is kept strictly in server memory. It is never transmitted to the browser or placed in HTML meta tags.
-2. **HttpOnly Session Cookies**: Browser requests authenticate via an `HttpOnly`, `SameSite=Lax` cookie generated upon serving `index.html`.
-3. **No Shell Injections**: User-configurable goals and mission text are bounded and sanitized before inclusion into agent prompts.
-4. **Host & Origin Validation**: The backend checks `Host` and `Origin` headers to prevent cross-site websocket and DNS rebinding attacks.
+1. **Token Isolation:** The OpenClaw Gateway token remains server-side and is not sent to the browser.
+2. **HttpOnly Session Cookies:** Browser requests use an `HttpOnly`, `SameSite=Lax` session cookie.
+3. **Input Handling:** User-configurable goals and mission text are bounded and sanitized before prompt use.
+4. **Host & Origin Validation:** The backend validates request origin and host to mitigate cross-site and DNS-rebinding risks.
+5. **Operational Authorization:** Publishing and other consequential external actions require the applicable authorization; connected credentials alone are not approval.
 
 ---
 
-## 8. License
+## 10. License
 
 Proprietary — Executive Office of Willy, Chairman & CEO, **WJC GLOBAL GROUP**. All rights reserved.
