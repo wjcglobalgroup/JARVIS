@@ -67,7 +67,7 @@ Moddy (publishing + community operations)
 - **Publishing authorization:** Moddy must follow the owner's approval requirements. Default permission is read/draft; publishing requires explicit authorization for the relevant platform, account, operation, and content. A connected account is not, by itself, permission to publish.
 
 **Integration boundaries (STZ):**
-- Vera's workflow is Notion-based; she is not the Drive production operator. Her STZ script briefs must use approved STZ research inputs; Marco's primary organizational assignment is Trading & Investment.
+- Vera's workflow is Notion-based; she is not the Drive production operator. Her STZ script briefs must use approved STZ research inputs.
 - Vortex uses Notion for approved scripts and Google Drive for production assets. Google Flow is the designated video-generation workflow.
 - Moddy's intended Composio-connected publishing/operations apps are Facebook Page, YouTube, Instagram, Google Drive, and Google Calendar. Binance Square is connected directly through its API; Notion is accessed through the OpenClaw Notion MCP integration. Actual availability and permissions must be checked in the running environment.
 
