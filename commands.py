@@ -1,5 +1,5 @@
 """
-Command matrix for WJC GLOBAL GROUP — JARVIS COMMAND CENTER.
+Command matrix for WJC GLOBAL — JARVIS COMMAND CENTER.
 
 Handles local commands, mission queue management, and OpenClaw agent coordination.
 OpenClaw-native executive commands and direct API routing.
@@ -154,7 +154,7 @@ _CMD = re.compile(
 
 
 def _commands_reply():
-    return """**WJC GLOBAL GROUP — JARVIS COMMAND CENTER**
+    return """**WJC GLOBAL — JARVIS COMMAND CENTER**
 Available slash commands:
 
 • **/new** — Start a fresh OpenClaw session with Jarvis
@@ -197,7 +197,7 @@ def handle(message, runner=None, runtime_module=None):
     if cmd == "new":
         return dict(
             fresh=True,
-            message=arg or "Initialize a fresh Jarvis session for WJC Global Group. Greet Willy concisely.",
+            message=arg or "Initialize a fresh Jarvis session for WJC Global. Greet Willy concisely.",
             note="fresh session initialized",
         )
 
@@ -205,7 +205,7 @@ def handle(message, runner=None, runtime_module=None):
         if runtime_module:
             st = runtime_module.connection_status()
             reply = (
-                f"**WJC GLOBAL GROUP — RUNTIME STATUS**\n"
+                f"**WJC GLOBAL — RUNTIME STATUS**\n"
                 f"• **AI Runtime**: OpenClaw Gateway (Protocol v4)\n"
                 f"• **Gateway URL**: {st.get('gateway_url')}\n"
                 f"• **Connection State**: {st.get('state')}\n"
@@ -221,7 +221,7 @@ def handle(message, runner=None, runtime_module=None):
         if runtime_module:
             try:
                 agents = runtime_module.list_agents()
-                lines = ["**WJC GLOBAL GROUP — VERIFIED AGENT ROSTER**\n"]
+                lines = ["**WJC GLOBAL — VERIFIED AGENT ROSTER**\n"]
                 for a in agents:
                     is_def = " *(Default / Group COO)*" if a.get("is_default") else ""
                     lines.append(f"• **{a.get('name')}** (`{a.get('id')}`){is_def} — {a.get('role')}")
@@ -311,7 +311,7 @@ def handle(message, runner=None, runtime_module=None):
             return dict(message=None, reply="Mission queue is currently empty.", note="queue empty")
         return dict(
             message=None,
-            reply="**WJC GLOBAL GROUP — MISSION QUEUE**\n" + "\n".join(f"• {t}" for t in open_t),
+            reply="**WJC GLOBAL — MISSION QUEUE**\n" + "\n".join(f"• {t}" for t in open_t),
             note=f"queue read ({len(open_t)})",
         )
 
