@@ -1,5 +1,5 @@
 """
-Voice synthesis and speech transcription module for WJC GLOBAL GROUP — JARVIS COMMAND CENTER.
+Voice synthesis and speech transcription module for WJC GLOBAL — JARVIS COMMAND CENTER.
 
 Server-side proxy for ElevenLabs Text-to-Speech (TTS) and Speech-to-Text (STT).
 All API keys and credentials remain strictly server-side.
