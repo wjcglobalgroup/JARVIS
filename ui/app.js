@@ -546,9 +546,11 @@ function populateAgentDropdown() {
 function loadAgentsGrid() {
   const divisions = {
     executive: ['main'],
-    tech: ['coddy', 'moddy', 'vera'],
-    media: ['sniper', 'nova', 'marco'],
-    trading: ['vortex', 'dave', 'june', 'kyle'],
+    tech: ['coddy'],
+    stz: ['vera', 'vortex', 'moddy'],
+    ofw: ['nova', 'dave', 'june'],
+    kaixin: ['ethan', 'axel', 'kyle'],
+    trading: ['marco', 'sniper'],
   };
 
   Object.entries(divisions).forEach(([divId, agentIds]) => {
