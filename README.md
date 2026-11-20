@@ -44,7 +44,6 @@ Jarvis is WJC Global's operational coordinator—not the owner and not a replace
 
 | Agent | Agent ID | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- |
-
 | **Vera** | `vera` | **STZ Crypto Content Scriptwriter** | Converts approved Notion briefs and, where relevant, Marco's market/macro research supplied from the Trading & Investment division into publish-ready scripts. Maintains the script handoff in Notion. Vera is a writing role: she does not generate videos or images and does not own the Google Drive production workflow. |
 | **Vortex** | `vortex` | **STZ Video & Visual Production Editor** | Retrieves Vera's approved Notion scripts, produces video and image assets, uses Google Flow for video generation, manages production assets in Google Drive, and hands final deliverables to Moddy. |
 | **Moddy** | `moddy` | **STZ Social Media Operations Manager** | Owns publishing operations and community management for STZ; prepares and publishes approved content, monitors platform activity, manages comments/community workflows, and reports publishing results. |
