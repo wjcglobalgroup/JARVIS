@@ -44,7 +44,7 @@ Jarvis is WJC Global's operational coordinator—not the owner and not a replace
 
 | Agent | Agent ID | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- |
-| **Vera** | `vera` | **STZ Crypto Content Scriptwriter** | Converts approved Notion briefs and, where relevant, Marco's market/macro research supplied from the Trading & Investment division into publish-ready scripts. Maintains the script handoff in Notion. Vera is a writing role: she does not generate videos or images and does not own the Google Drive production workflow. |
+| **Vera** | `vera` | **STZ Crypto Researcher & Scriptwriter** | Independently researches STZ crypto topics, develops content ideas, and writes publish-ready scripts. Owns the STZ research and scriptwriting process and maintains the script handoff in Notion. Vera does not generate videos or images and does not own the Google Drive production workflow. |
 | **Vortex** | `vortex` | **STZ Video & Visual Production Editor** | Retrieves Vera's approved Notion scripts, produces video and image assets, uses Google Flow for video generation, manages production assets in Google Drive, and hands final deliverables to Moddy. |
 | **Moddy** | `moddy` | **STZ Social Media Operations Manager** | Owns publishing operations and community management for STZ; prepares and publishes approved content, monitors platform activity, manages comments/community workflows, and reports publishing results. |
 
@@ -66,7 +66,7 @@ Moddy (publishing + community operations)
 - **Publishing authorization:** Moddy must follow the owner's approval requirements. Default permission is read/draft; publishing requires explicit authorization for the relevant platform, account, operation, and content. A connected account is not, by itself, permission to publish.
 
 **Integration boundaries (STZ):**
-- Vera's workflow is Notion-based; she is not the Drive production operator. Her STZ script briefs must use approved STZ research inputs.
+- Vera independently researches STZ crypto topics and writes the scripts; her workflow is Notion-based, and she is not the Drive production operator.
 - Vortex uses Notion for approved scripts and Google Drive for production assets. Google Flow is the designated video-generation workflow.
 - Moddy's intended Composio-connected publishing/operations apps are Facebook Page, YouTube, Instagram, Google Drive, and Google Calendar. Binance Square is connected directly through its API; Notion is accessed through the OpenClaw Notion MCP integration. Actual availability and permissions must be checked in the running environment.
 
