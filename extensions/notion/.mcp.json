@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "notion": {
+      "url": "https://mcp.notion.com/mcp",
+      "description": "Enable this plugin and connect your account in OpenClaw.",
+      "auth": "oauth",
+      "type": "http"
+    }
+  }
+}

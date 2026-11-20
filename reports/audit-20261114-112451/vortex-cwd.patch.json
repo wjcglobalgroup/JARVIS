@@ -1,0 +1,27 @@
+{
+  "mcp": {
+    "servers": {
+      "google-flow": {
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex"
+      },
+      "google-flow-B": {
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex"
+      },
+      "google-flow-C": {
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex"
+      },
+      "google-flow-D": {
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex"
+      },
+      "google-flow-E": {
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex"
+      },
+      "google-flow-F": {
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex"
+      },
+      "google-flow-G": {
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex"
+      }
+    }
+  }
+}

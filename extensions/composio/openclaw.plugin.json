@@ -1,0 +1,21 @@
+{
+  "id": "composio",
+  "name": "Composio",
+  "description": "Use the local Composio CLI for authenticated external-app actions.",
+  "icon": "https://composio.dev/favicon.ico",
+  "version": "0.1.0",
+  "activation": {
+    "onStartup": true,
+    "onCapabilities": [
+      "hook"
+    ]
+  },
+  "skills": [
+    "./skills"
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "notion",
+  "version": "1.0.1",
+  "description": "Pages and databases from your Notion workspace.",
+  "author": {
+    "name": "OpenClaw"
+  },
+  "mcpServers": "./.mcp.json"
+}

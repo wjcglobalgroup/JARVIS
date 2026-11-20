@@ -1,0 +1,68 @@
+# Exclude large/unnecessary directories
+cache/
+logs/
+tmp/
+state/
+completions/
+session-sqlite-migration-runs/
+update-reports/
+recovery-backup-*/
+browser/
+client/
+control/
+migration/
+npm/
+openclaw/
+stz-os-repo/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.log
+*.bak
+*.bak.*
+*.clobbered.*
+
+# Exclude ALL workspace directories (they have their own git repos)
+workspace-*/
+workspace/
+
+# Exclude credentials (will need to be re-added securely)
+credentials/
+
+# Exclude backups (too many)
+backups/
+
+# Exclude media
+media/
+
+# Exclude node_modules
+**/node_modules/
+
+# Exclude SQLite database files and backups
+agents/**/openclaw-agent.sqlite*
+agents/**/openclaw-agent.sqlite-seal
+agents/**/openclaw-agent.sqlite.bak*
+agents/**/openclaw-agent.sqlite.bak2
+
+# Exclude config backups (keep only latest openclaw.json)
+openclaw.json.backup-*
+openclaw.json.bak*
+openclaw.json.doctor-output-*
+openclaw.json.last-good
+openclaw.json.pre-*
+openclaw.json.bak_models
+
+# Exclude temp files
+temp-jarvis-daily-report.txt
+config-journal-fingerprint.key
+legacy-gateway-cron-2026-11-09.json
+gateway*.cmd
+gateway*.vbs
+gateway.cmd
+gateway.vbs
+
+# Exclude embedded git repos
+agents/**/codex-home/.tmp/plugins
+agents/**/workshop-skills/.archive
+extensions/**/dist
+extensions/**/package.json

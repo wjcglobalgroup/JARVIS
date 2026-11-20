@@ -1,0 +1,251 @@
+{
+  "mcp": {
+    "servers": {
+      "dave-flow-1": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-1.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-2": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-2.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-3": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-3.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-4": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-4.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-5": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-5.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-6": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-6.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-7": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-7.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      }
+    }
+  },
+  "agents": {
+    "entries": {
+      "main": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "marco": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "coddy": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "sniper": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "vera": {
+        "tools": {
+          "deny": [
+            "*composio*",
+            "*gdrive*",
+            "*google_drive*",
+            "*google_flow*",
+            "*google-drive*",
+            "*google-flow*",
+            "dave-flow-*__*",
+            "exec",
+            "flow_generate_*",
+            "google-flow*__*",
+            "process"
+          ]
+        }
+      },
+      "moddy": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "vortex": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*"
+          ]
+        }
+      },
+      "nova": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "dave": {
+        "tools": {
+          "deny": [
+            "google-flow*__*"
+          ]
+        }
+      },
+      "june": {
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      }
+    }
+  }
+}

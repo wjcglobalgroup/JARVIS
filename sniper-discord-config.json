@@ -1,0 +1,15 @@
+[
+  {
+    "path": "channels.discord.accounts.sniper",
+    "value": {
+      "name": "Sniper Discord",
+      "token": {
+        "source": "store",
+        "provider": "default",
+        "id": "SNIPER_DISCORD_BOT_TOKEN"
+      },
+      "defaultTo": "1557281223015923753",
+      "allowFrom": ["1082604851713822791"]
+    }
+  }
+]

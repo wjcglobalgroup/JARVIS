@@ -1,0 +1,1284 @@
+{
+  "meta": {
+    "migrations": {
+      "webhookListeners": true,
+      "modelPolicyAllowlist": true,
+      "utilityModelSeparation": true
+    },
+    "lastTouchedVersion": "2026.11.3"
+  },
+  "wizard": {
+    "lastRunAt": "2026-11-04T02:56:01.736Z",
+    "lastRunVersion": "2026.10.10",
+    "lastRunCommand": "doctor",
+    "lastRunMode": "local"
+  },
+  "gateway": {
+    "auth": {
+      "mode": "token",
+      "token": "[REDACTED - GATEWAY_AUTH_TOKEN]"
+    },
+    "mode": "local",
+    "port": 18789,
+    "bind": "loopback",
+    "trustedProxies": [
+      "127.0.0.1",
+      "::1"
+    ],
+    "controlUi": {
+      "allowedOrigins": [
+        "https://openclaw.stzsniper.com",
+        "https://stzsniper.com",
+        "http://localhost:18789",
+        "http://127.0.0.1:18789"
+      ],
+      "enabled": true
+    },
+    "tailscale": {
+      "mode": "off"
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+        "fallbacks": [
+          "openrouter/nvidia/nemotron-3.5-super-vl:free"
+        ]
+      },
+      "models": {
+        "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+        "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {},
+        "openrouter/nvidia/nemotron-3.5-super-vl:free": {}
+      },
+      "utilityModel": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+      "systemAgent": {
+        "agentId": "main"
+      },
+      "heartbeat": {
+        "agentId": "main"
+      },
+      "bootstrapMaxChars": 50000,
+      "thinkingDefault": "high",
+      "fastModeDefault": "auto"
+    },
+    "ownership": "explicit",
+    "entries": {
+      "main": {
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3.5-super-vl:free",
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3.5-lightning:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {},
+          "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3.5-lightning:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free"
+          ]
+        },
+        "name": "Jarvis",
+        "identity": {
+          "name": "Jarvis",
+          "emoji": "🤖",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace",
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "coddy": {
+        "name": "coddy",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-coddy",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\coddy\\agent",
+        "identity": {
+          "name": "coddy",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3.5-super-vl:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "marco": {
+        "name": "marco",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-marco",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\marco\\agent",
+        "identity": {
+          "name": "marco",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3.5-super-vl:free",
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "moddy": {
+        "name": "moddy",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-moddy",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\moddy\\agent",
+        "identity": {
+          "name": "moddy",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3.5-super-vl:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "sniper": {
+        "name": "sniper",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-sniper",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\sniper\\agent",
+        "identity": {
+          "name": "sniper",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "vera": {
+        "name": "vera",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-vera",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\vera\\agent",
+        "identity": {
+          "name": "vera",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3.5-super-vl:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "*gdrive*",
+            "*google_drive*",
+            "*google_flow*",
+            "*google-drive*",
+            "*google-flow*",
+            "dave-flow-*__*",
+            "flow_generate_*",
+            "google-flow*__*"
+          ]
+        },
+        "skills": [
+          "browser-automation",
+          "canvas",
+          "clawhub",
+          "control-ui",
+          "diagram-maker",
+          "discord",
+          "find-skills",
+          "gh-issues",
+          "github",
+          "healthcheck",
+          "insforge",
+          "insforge-cli",
+          "insforge-debug",
+          "insforge-integrations",
+          "meme-maker",
+          "node-connect",
+          "node-inspect-debugger",
+          "notion",
+          "notion-operations",
+          "notion-production-record",
+          "obsidian-memory-manager",
+          "obsidian-vault-maintainer",
+          "openclaw-automation-scheduler",
+          "production-manifest-and-recovery",
+          "python-debugpy",
+          "reverse-engineer-anything",
+          "skill-creator",
+          "spike",
+          "stz-agent-coordination",
+          "stz-image-text-script-production",
+          "stz-short-form-content-strategy",
+          "system-maintenance-protocol",
+          "visual-audio-monitoring",
+          "visualize",
+          "weather",
+          "wiki-maintainer"
+        ]
+      },
+      "vortex": {
+        "name": "Vortex",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\vortex\\agent",
+        "identity": {
+          "name": "Vortex",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3.5-super-vl:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3-super-120b-a12b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3-super-120b-a12b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*"
+          ]
+        }
+      },
+      "nova": {
+        "name": "nova",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-nova",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\nova\\agent",
+        "identity": {
+          "name": "nova",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3.5-super-vl:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {},
+          "openrouter/nvidia/nemotron-3.5-lightning:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free",
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*",
+            "google-flow*__*"
+          ]
+        }
+      },
+      "dave": {
+        "name": "dave",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\dave\\agent",
+        "identity": {
+          "name": "dave",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3.5-super-vl:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {},
+          "openrouter/nvidia/nemotron-3.5-lightning:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free",
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*"
+          ]
+        }
+      },
+      "june": {
+        "name": "june",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-june",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\june\\agent",
+        "identity": {
+          "name": "june",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3.5-super-vl:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {},
+          "openrouter/nvidia/nemotron-3.5-lightning:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free",
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*"
+          ]
+        }
+      },
+      "kyle": {
+        "name": "kyle",
+        "workspace": "C:\\Users\\dizon\\.openclaw\\workspace-kyle",
+        "agentDir": "C:\\Users\\dizon\\.openclaw\\agents\\kyle\\agent",
+        "identity": {
+          "name": "kyle",
+          "avatar": "[REDACTED - AVATAR_BASE64]"
+        },
+        "model": {
+          "primary": "openrouter/nvidia/nemotron-3.5-super-vl:free",
+          "fallbacks": [
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "models": {
+          "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free": {},
+          "openrouter/nvidia/nemotron-3.5-super-vl:free": {},
+          "openrouter/nvidia/nemotron-3.5-lightning:free": {}
+        },
+        "modelPolicy": {
+          "allow": [
+            "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free",
+            "openrouter/nvidia/nemotron-3.5-super-vl:free",
+            "openrouter/nvidia/nemotron-3.5-lightning:free"
+          ]
+        },
+        "tools": {
+          "deny": [
+            "dave-flow-*__*"
+          ]
+        }
+      }
+    }
+  },
+  "discord": {
+    "accounts": {
+      "jarvis": {
+        "name": "Jarvis Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1557280479970066452",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist"
+      },
+      "marco": {
+        "name": "Marco Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1557280648228773920",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist"
+      },
+      "sniper": {
+        "name": "Sniper Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1557281223015923753",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist"
+      },
+      "moddy": {
+        "name": "Moddy Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1557281768778891305",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist"
+      },
+      "coddy": {
+        "name": "Coddy Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1557281482916106240",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist"
+      },
+      "vera": {
+        "name": "Vera Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1557281628441546762",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist"
+      },
+      "nova": {
+        "name": "Nova Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1572114515313827850",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist",
+        "intents": {
+          "messageContent": false
+        }
+      },
+      "dave": {
+        "name": "Dave Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1572114841429213305",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist",
+        "intents": {
+          "messageContent": false
+        }
+      },
+      "june": {
+        "name": "June Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1572114967123992767",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist",
+        "intents": {
+          "messageContent": false
+        }
+      },
+      "vortex": {
+        "name": "Vortex Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1572113752470593576",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist",
+        "intents": {
+          "messageContent": false
+        }
+      },
+      "kyle": {
+        "name": "Kyle Discord",
+        "token": "[REDACTED - DISCORD_BOT_TOKEN]",
+        "defaultTo": "1572115044894908416",
+        "allowFrom": [
+          "1082604851713822791"
+        ],
+        "groupPolicy": "open",
+        "dmPolicy": "allowlist",
+        "intents": {
+          "messageContent": false
+        }
+      }
+    }
+  },
+  "bindings": [
+    {
+      "type": "route",
+      "agentId": "main",
+      "match": {
+        "channel": "discord",
+        "accountId": "jarvis"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "main",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1557280479970066452"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "marco",
+      "match": {
+        "channel": "discord",
+        "accountId": "marco"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "marco",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1557280648228773920"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "sniper",
+      "match": {
+        "channel": "discord",
+        "accountId": "sniper"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "sniper",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1557281223015923753"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "moddy",
+      "match": {
+        "channel": "discord",
+        "accountId": "moddy"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "moddy",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1557281768778891305"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "coddy",
+      "match": {
+        "channel": "discord",
+        "accountId": "coddy"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "coddy",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1557281482916106240"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "vera",
+      "match": {
+        "channel": "discord",
+        "accountId": "vera"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "vera",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1557281628441546762"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "nova",
+      "match": {
+        "channel": "discord",
+        "accountId": "nova"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "nova",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1572114515313827850"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "dave",
+      "match": {
+        "channel": "discord",
+        "accountId": "dave"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "dave",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1572114841429213305"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "june",
+      "match": {
+        "channel": "discord",
+        "accountId": "june"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "june",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1572114967123992767"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "vortex",
+      "match": {
+        "channel": "discord",
+        "accountId": "vortex"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "vortex",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1572113752470593576"
+        }
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "kyle",
+      "match": {
+        "channel": "discord",
+        "accountId": "kyle"
+      }
+    },
+    {
+      "type": "route",
+      "agentId": "kyle",
+      "match": {
+        "channel": "discord",
+        "peer": {
+          "kind": "channel",
+          "id": "1572115044894908416"
+        }
+      }
+    }
+  ],
+  "mcp": {
+    "servers": {
+      "google-flow": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-A.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "google-flow-B": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-B.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "google-flow-C": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-C.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "google-flow-D": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-D.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "google-flow-E": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-E.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "google-flow-F": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-F.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "google-flow-G": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-G.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "vortex-flow-1": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-A.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "vortex-flow-2": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-B.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "vortex-flow-3": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-C.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "vortex-flow-4": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-D.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "vortex-flow-5": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-E.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "vortex-flow-6": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-F.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "vortex-flow-7": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-vortex",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.config\\google-flow-mcp\\config-FLOW-G.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-1": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-1.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-2": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-2.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-3": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-3.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-4": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-4.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-5": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-5.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-6": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-6.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      },
+      "dave-flow-7": {
+        "command": "google-flow-mcp",
+        "cwd": "C:\\Users\\dizon\\.openclaw\\workspace-dave",
+        "env": {
+          "FLOW_MCP_CONFIG": "C:\\Users\\dizon\\.openclaw\\workspace-dave\\google-flow-mcp\\configs\\config-DAVE-FLOW-7.json"
+        },
+        "toolFilter": {
+          "include": [
+            "flow_connect",
+            "flow_status",
+            "flow_screenshot",
+            "flow_inspect",
+            "flow_project_open",
+            "flow_generate_video",
+            "flow_generate_image",
+            "flow_media_download",
+            "flow_scene_add",
+            "flow_scene_status",
+            "flow_scene_extend"
+          ]
+        }
+      }
+    }
+  }
+}
