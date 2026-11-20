@@ -74,7 +74,7 @@ Moddy (publishing + community operations)
 
 | Agent | Agent ID | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- |
-| **Marco** | `marco` | **Trading Macro & Market Intelligence Analyst** | Monitors macroeconomic conditions and crypto-market intelligence; produces the macro-gate assessment used by the trading operation; sends actionable macro context and gate results to the designated trading Discord channel; supports Sniper's market decisions. Marco belongs to Trading & Investment, not STZ Crypto Media. |
+| **Marco** | `marco` | **Trading Macro & Market Intelligence Analyst** | Monitors macroeconomic conditions and crypto-market intelligence; produces the macro-gate assessment used by the trading operation; sends actionable macro context and gate results to the designated trading Discord channel; supports Sniper's market decisions. |
 | **Sniper** | `sniper` | **SMC Crypto Trader** | Scans crypto markets for deterministic Smart Money Concepts (SMC) setups; evaluates market structure, liquidity sweeps, market structure shifts, order blocks, entries, and risk; uses LLM interpretation after a potential setup is found; executes only when configured trading and risk gates permit; monitors open positions and trade management rules. |
 
 **Trading team responsibilities:** Marco owns macro research and the macro-environment gate; Sniper owns SMC setup detection, trade evaluation, execution logic, and open-position management. Marco's macro assessment informs the trading workflow but does not replace Sniper's deterministic setup and risk checks.
