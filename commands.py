@@ -223,7 +223,7 @@ def handle(message, runner=None, runtime_module=None):
                 agents = runtime_module.list_agents()
                 lines = ["**WJC GLOBAL — VERIFIED AGENT ROSTER**\n"]
                 for a in agents:
-                    is_def = " *(Default / Group COO)*" if a.get("is_default") else ""
+                    is_def = " *(Default / COO)*" if a.get("is_default") else ""
                     lines.append(f"• **{a.get('name')}** (`{a.get('id')}`){is_def} — {a.get('role')}")
                 reply = "\n".join(lines)
             except Exception as e:
