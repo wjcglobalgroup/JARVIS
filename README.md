@@ -1,13 +1,13 @@
-# WJC GLOBAL GROUP — JARVIS COMMAND CENTER
+# WJC GLOBAL — JARVIS COMMAND CENTER
 
 [![Repository](https://img.shields.io/badge/GitHub-wjcglobalgroup%2FJARVIS-cyan.svg)](https://github.com/wjcglobalgroup/JARVIS)
 [![Architecture](https://img.shields.io/badge/Architecture-OpenClaw%20Gateway%20Native%20v4-blue.svg)](#architecture)
 [![Executive](https://img.shields.io/badge/Principal-Willy%20%7C%20Chairman%20%26%20CEO-gold.svg)](#leadership-and-command)
 
-The executive command center for **WJC GLOBAL GROUP**, powered by a direct integration with the **OpenClaw Gateway (Protocol v4 over WebSocket)**.
+The executive command center for **WJC GLOBAL**, powered by a direct integration with the **OpenClaw Gateway (Protocol v4 over WebSocket)**.
 
 - **Chairman & CEO:** Willy — owner and final executive authority.
-- **Group COO:** Jarvis (`main`) — coordinates daily operations across the Group's divisions and agent teams.
+- **COO:** Jarvis (`main`) — coordinates daily operations across WJC Global's divisions and agent teams.
 - **Repository:** [wjcglobalgroup/JARVIS](https://github.com/wjcglobalgroup/JARVIS)
 - **Local Console:** [http://127.0.0.1:8730](http://127.0.0.1:8730)
 
@@ -19,10 +19,10 @@ The executive command center for **WJC GLOBAL GROUP**, powered by a direct integ
 
 | Person / Agent | Title | Accountability |
 | :--- | :--- | :--- |
-| **Willy** | **Chairman & CEO** | Sets Group direction, approves strategic decisions, and retains final authority over business-critical actions. |
-| **Jarvis** (`main`) | **Group Chief Operating Officer (COO)** | Coordinates daily execution across divisions, assigns work to specialist agents, tracks handoffs and blockers, and reports operational outcomes to the Chairman. |
+| **Willy** | **Chairman & CEO** | Sets WJC Global's direction, approves strategic decisions, and retains final authority over business-critical actions. |
+| **Jarvis** (`main`) | **Chief Operating Officer (COO)** | Coordinates daily execution across divisions, assigns work to specialist agents, tracks handoffs and blockers, and reports operational outcomes to the Chairman. |
 
-Jarvis is the Group's operational coordinator—not the owner and not a replacement for the specialist agents. Each specialist remains responsible for its assigned function. Jarvis coordinates priorities, dependencies, and cross-division execution.
+Jarvis is WJC Global's operational coordinator—not the owner and not a replacement for the specialist agents. Each specialist remains responsible for its assigned function. Jarvis coordinates priorities, dependencies, and cross-division execution.
 
 ---
 
@@ -32,7 +32,7 @@ Jarvis is the Group's operational coordinator—not the owner and not a replacem
 
 | Agent | Agent ID | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- |
-| **Jarvis** | `main` | **Group COO** | Daily Group operations; agent coordination; mission delegation; cross-division follow-up; escalation of blockers; executive reporting to Willy. |
+| **Jarvis** | `main` | **COO** | Daily WJC Global operations; agent coordination; mission delegation; cross-division follow-up; escalation of blockers; executive reporting to Willy. |
 
 ### Technology & Automation
 
@@ -126,9 +126,13 @@ June (publishing and social media operations)
 
 The Command Center connects to the OpenClaw Gateway over WebSocket (Protocol v4), supporting session persistence and real-time event streaming.
 
+### Discord agent routing
+
+The sanitized OpenClaw configuration snapshot on the `master` branch defines 11 agents and 11 Discord accounts, with 22 explicit route bindings: one Discord account-ID match and one channel-peer match for each agent. All bindings target configured agent IDs, every configured Discord account has an account route, and the saved snapshot contains no duplicate account or channel-peer matches. This validates the stored routing map only; it does not confirm live bot connectivity, Discord permissions, or end-to-end message delivery.
+
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                    WJC GLOBAL GROUP                         │
+│                       WJC GLOBAL                            │
 │                 JARVIS COMMAND CENTER                       │
 │          Chat · Agents · Missions · Telemetry                │
 └──────────────────────────────┬──────────────────────────────┘
@@ -148,8 +152,8 @@ The Command Center connects to the OpenClaw Gateway over WebSocket (Protocol v4)
                                │ Agent Routing
                                ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                  JARVIS — GROUP COO                         │
-│       Coordinates the WJC GLOBAL GROUP specialist teams     │
+│                       JARVIS — COO                          │
+│       Coordinates WJC GLOBAL specialist teams     │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -160,7 +164,7 @@ The Command Center connects to the OpenClaw Gateway over WebSocket (Protocol v4)
 - **Native OpenClaw Protocol v4:** Direct WebSocket integration with the local OpenClaw Gateway on port 18789.
 - **Windows Background Service:** Supports background startup and desktop shortcuts.
 - **Real-Time Streaming Chat:** Executive chat with streaming responses and session continuity.
-- **Workforce Directory:** Presents the Group's organizational agent roster and role boundaries. Runtime presence should be verified separately.
+- **Workforce Directory:** Presents WJC Global's organizational agent roster and role boundaries. Runtime presence should be verified separately.
 - **Executive Mission Control:** Management of objectives, mission queues, and background operations.
 - **Operational Telemetry:** Displays agent and system operational states where available.
 - **Voice Briefing:** Supports configured server-side ElevenLabs or browser Web Speech API voice features.
@@ -251,4 +255,4 @@ ELEVENLABS_MODEL=eleven_turbo_v2_5
 
 ## 10. License
 
-Proprietary — Executive Office of Willy, Chairman & CEO, **WJC GLOBAL GROUP**. All rights reserved.
+Proprietary — Executive Office of Willy, Chairman & CEO, **WJC GLOBAL**. All rights reserved.
