@@ -1,7 +1,7 @@
 @echo off
 setlocal
 echo ==============================================================
-echo WJC GLOBAL GROUP — JARVIS COMMAND CENTER
+echo WJC GLOBAL — JARVIS COMMAND CENTER
 echo ==============================================================
 
 cd /d "%~dp0"
