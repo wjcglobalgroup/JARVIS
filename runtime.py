@@ -1,5 +1,5 @@
 """
-OpenClaw runtime for WJC GLOBAL GROUP — JARVIS COMMAND CENTER.
+OpenClaw runtime for WJC GLOBAL — JARVIS COMMAND CENTER.
 
 Connects to the OpenClaw Gateway as the sole AI runtime.
 Directs all operations to the verified Jarvis agent ('main') and other organizational agents.
