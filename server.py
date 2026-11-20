@@ -3,7 +3,7 @@ WJC GLOBAL — JARVIS COMMAND CENTER Server.
 
 Secure HTTP and NDJSON backend connecting the dashboard interface to the OpenClaw Gateway.
 Owner: Willy — Chairman & CEO
-Main AI Agent: Jarvis — Group COO
+Main AI Agent: Jarvis — COO
 """
 import http.cookies
 import json
@@ -199,7 +199,7 @@ class Handler(BaseHTTPRequestHandler):
             return self._json({
                 "brand": "WJC GLOBAL — JARVIS COMMAND CENTER",
                 "owner": "Willy — Chairman & CEO",
-                "main_agent": "Jarvis — Group COO",
+                "main_agent": "Jarvis — COO",
                 "runtime": "openclaw",
                 "gateway": {
                     "connected": gw_status.get("connected"),
