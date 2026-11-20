@@ -1,5 +1,5 @@
 """
-WJC GLOBAL GROUP — JARVIS COMMAND CENTER Server.
+WJC GLOBAL — JARVIS COMMAND CENTER Server.
 
 Secure HTTP and NDJSON backend connecting the dashboard interface to the OpenClaw Gateway.
 Owner: Willy — Chairman & CEO
@@ -197,7 +197,7 @@ class Handler(BaseHTTPRequestHandler):
         if p == "/api/status":
             gw_status = runtime.connection_status()
             return self._json({
-                "brand": "WJC GLOBAL GROUP — JARVIS COMMAND CENTER",
+                "brand": "WJC GLOBAL — JARVIS COMMAND CENTER",
                 "owner": "Willy — Chairman & CEO",
                 "main_agent": "Jarvis — Group COO",
                 "runtime": "openclaw",
@@ -431,7 +431,7 @@ def main():
 
     print(f"""
   ==============================================================
-  WJC GLOBAL GROUP — JARVIS COMMAND CENTER
+  WJC GLOBAL — JARVIS COMMAND CENTER
   ==============================================================
   Executive  : Willy — Chairman & CEO
   COO Agent  : Jarvis (agentId: main)
