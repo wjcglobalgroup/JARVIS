@@ -1,5 +1,5 @@
 """
-OpenClaw Gateway WebSocket Adapter for WJC GLOBAL GROUP — JARVIS COMMAND CENTER.
+OpenClaw Gateway WebSocket Adapter for WJC GLOBAL — JARVIS COMMAND CENTER.
 
 Connects to the local OpenClaw Gateway (Protocol v4) over WebSocket as an operator client.
 Provides thread-safe synchronous and streaming interfaces for the Python HTTP backend.
