@@ -104,27 +104,21 @@ June (publishing and social media operations)
 
 ### Kaixin Transport
 
+**Business / Content Niche:** Uber-style van rental and travel tourism, featuring a branded avatar/vlogger-driver who showcases Luzon tourist destinations and promotes Kaixin Transport's van rental services.
+
+**Team Status:** Planning stage. The Kaixin Transport Facebook Page already exists; the dedicated content-production team and workflow are still being planned.
+
 | Agent | Agent ID | Status | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- | :--- |
-| **Kyle** | `kyle` | **Existing in OpenClaw** | **Transport & Van Rental Customer Service Agent** | Supports Kaixin Transport inquiries and reservations. Communicates in Tagalog/Filipino by default; handles Nissan NV350 van rental inquiries for 15–18 passengers with a driver (no self-drive); gathers booking date, number of days, pickup and drop-off locations, and trip details; supports outings, swimming trips, tours, airport transfers, weddings, and baptisms. |
+| **Ethan** | `ethan` | **Planned** | **Scriptwriter** | Writes scripts for the Kaixin Transport niche, including Luzon destination features, travel storytelling, van-rental promotions, and avatar/vlogger-driver video concepts. |
+| **Axel** | `axel` | **Planned** | **Video Editor** | Edits and produces Kaixin Transport videos, including avatar/vlogger-driver content, destination features, and promotional videos. |
+| **Kyle** | `kyle` | **Existing in OpenClaw** | **Social Media, Publishing & Marketing Manager** | Publishes approved content on the Kaixin Transport Facebook Page; looks for and attracts potential passengers and rental clients; monitors and answers comments; responds to Facebook DMs and inquiries; handles initial customer engagement and helps convert inquiries into potential bookings. Kyle also supports existing van-rental customer-service and reservation inquiries. |
 
-**Runtime note:** Kyle already exists in OpenClaw. This confirms the agent is present in the runtime; it does not, by itself, certify that every Kaixin Transport workflow or integration is production-ready.
+**Planned content workflow:** Ethan (scriptwriting) → Axel (video editing/production) → Kyle (publishing, audience engagement, lead generation, comments and DM inquiries).
 
----
+**Business concept:** Kaixin Transport offers Uber-style van rental with a driver. Content will use a branded avatar/vlogger-driver to feature Luzon tourism destinations and introduce potential passengers to the service.
 
-## 3. Reporting, Handoffs, and Authority
-
-1. **Willy → Jarvis:** Willy sets priorities and retains final executive authority. Jarvis translates approved priorities into coordinated work.
-2. **Jarvis → Specialist Agents:** Jarvis delegates work according to the role boundaries above and tracks delivery, dependencies, and blockers.
-3. **Specialist-to-specialist handoffs:** Agents pass outputs to the next owner in the relevant workflow. The receiving agent owns the next stage; the sending agent does not silently take over that role.
-4. **Approval gates:** External publishing, financial actions, trading execution, and other consequential operations must obey the applicable owner authorization and configured safety controls. Tool access does not imply permission.
-5. **Truthful status reporting:** Distinguish planned, configured, connected, tested, and production-ready states. Never describe an agent, integration, or workflow as verified unless it has been checked in the live environment.
-
----
-
-## 4. Architecture
-
-The Command Center connects to the OpenClaw Gateway over WebSocket (Protocol v4), supporting session persistence and real-time event streaming.
+**Runtime note:** Kyle already exists in OpenClaw. Ethan and Axel are planned team members; this documentation does not claim that their agents or the complete Kaixin content workflow are already deployed or production-ready.
 
 ### Discord agent routing
 
