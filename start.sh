@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 echo "=============================================================="
-echo "WJC GLOBAL GROUP — JARVIS COMMAND CENTER"
+echo "WJC GLOBAL — JARVIS COMMAND CENTER"
 echo "=============================================================="
 
 if [[ -f ".venv/bin/python" ]]; then
