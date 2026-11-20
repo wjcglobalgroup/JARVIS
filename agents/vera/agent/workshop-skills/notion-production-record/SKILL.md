@@ -1,50 +1,76 @@
 ---
 name: notion-production-record
-description: Update the STZ Notion content pipeline record with script references, scene counts, account assignments, job IDs, model settings, credit usage, validation results, retries, errors, final filename, measured duration, validation status, and Google Drive file ID/link.
+description: Maintain Vera's STZ research and script handoff record in the authorized STZ Notion workspace. Does not manage video production, Google Flow, Drive assets, scene manifests, or publishing.
 metadata:
-  version: "1.0.0"
+  version: "2.0.0"
   openclaw:
     emoji: "📝"
     owner: vera
     project: stz
 ---
 
-# Notion Production Record
+# STZ Research and Script Handoff
 
 ## Purpose
-Use Notion as the authoritative production record for STZ video production. Update the existing STZ Task/Mission Content Pipeline record — do not create a duplicate pipeline UI.
+
+Maintain the existing STZ research/script record for Vera's independent research and scriptwriting work. Vera's responsibility ends at a complete, quality-checked script and a clear handoff to Vortex.
+
+## Ownership Boundary
+
+Vera owns:
+- Independent STZ crypto-topic research and source verification
+- Content angle, brief, hook, and scriptwriting
+- Script quality checks for factual accuracy, clarity, and structure
+- Recording the research and script deliverable in the authorized STZ Notion workspace
+- Reporting a blocked handoff when the correct STZ Notion access is unavailable
+
+Vera does not:
+- Use Google Flow or any Google Flow MCP server or tool
+- Manage Google Flow accounts, authentication, credits, projects, or generation jobs
+- Generate or edit images or videos
+- Create scene-generation plans or maintain video-production manifests
+- Upload, organize, or manage production assets in Google Drive
+- Publish content or change publishing statuses
+
+Vortex owns video and visual production, including Google Flow, production manifests, and production assets. Moddy owns publishing.
 
 ## Notion Integration
 
-Preferred path: native STZ connector (when available and authorized).
-Fallback: Notion CLI (`ntn`) or raw Notion API via `NOTION_API_TOKEN`.
+Use only an explicitly authorized STZ-scoped Notion connection. Verify that the connected identity and target database are approved for STZ before reading or writing.
 
-## Fields to Update on the Existing Record
+If STZ-only access cannot be verified:
+1. Do not access OFW or another division's records as a substitute.
+2. Do not write through a shared connection with ambiguous scope.
+3. Preserve the completed research and script as a local draft.
+4. Report the exact access blocker to Jarvis.
 
-- Script and project references
-- Planned, validated, failed, and pending scene counts
-- Account assignments and job IDs
-- Model settings and reported credit usage
-- Validation results, retries, and errors
-- Final filename, measured duration, and validation status
-- Verified Google Drive file ID or link
-- Status: update to `Video Ready` only after video validation, Drive upload, and re-fetch verification of saved Notion fields
+## Fields to Record
 
-## STZ Task/Mission Item
+Update the existing STZ research/script item where a matching content identifier exists. Record only fields relevant to Vera's work:
+- Content ID or research ID
+- Research topic and selected angle
+- Source references and verification notes
+- Key factual claims and caveats
+- Hook, outline, and final script
+- Script status: draft, quality-checked, ready for handoff, or blocked
+- Handoff timestamp and recipient (Vortex)
+- Outstanding research or script blockers
 
-Update the same STZ Tasks/Missions item with progress/result/evidence or the exact blocker. Verify the saved mission. Do not create duplicate missions or alter the database schema/options.
+Do not create duplicate records when a matching item already exists. Do not invent sources, research results, approvals, or handoff confirmations.
 
-## Rules
+## Handoff Workflow
 
-- Do not publish or change platform publishing statuses. Moddy retains publishing ownership.
-- A video being ready is not authorization to publish.
-- If Google Flow, Notion, or Drive is unavailable, preserve the partial outcome and mark the relevant existing record blocked.
-- Never invent job IDs, Drive links, generated files, or success states.
-- Do not create a duplicate Content Pipeline UI.
+1. Research the STZ topic independently; do not depend on Marco's trading research.
+2. Verify sources and distinguish confirmed facts from estimates or opinions.
+3. Write and quality-check the publish-ready script.
+4. Save or update the existing STZ research/script record only when STZ-scoped Notion access is verified.
+5. Mark the script ready for handoff and identify Vortex as the production recipient.
+6. Confirm the handoff only when the record or approved handoff mechanism confirms it.
+7. If Notion access is unavailable, provide a local draft and report the blocker.
 
-## Update Workflow
+## Downstream Boundaries
 
-1. Read the existing Notion STZ Content Pipeline item (match by Content ID/Story ID/Research ID where present)
-2. Update that record instead of creating a duplicate
-3. Record actual failures and blockers; do not claim unverified outcomes
-4. Re-fetch the saved Notion fields to verify the update
+- Vortex: video/image production, Google Flow, production manifest, and Drive assets.
+- Moddy: publishing and community operations, subject to owner authorization.
+
+A script being ready for handoff does not mean a video has been generated or content has been published.
