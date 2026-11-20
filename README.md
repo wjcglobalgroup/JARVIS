@@ -11,7 +11,7 @@ The executive command center for **WJC GLOBAL**, powered by a direct integration
 - **Repository:** [wjcglobalgroup/JARVIS](https://github.com/wjcglobalgroup/JARVIS)
 - **Local Console:** [http://127.0.0.1:8730](http://127.0.0.1:8730)
 
-> **Roster accuracy:** This README documents the intended organizational responsibilities. Agent IDs shown below are the configured/conventional IDs currently documented for known agents; the Kyle agent for Kaixin Transport is marked planned and must not be treated as deployed until confirmed in the OpenClaw runtime.
+> **Roster accuracy:** This README documents the intended organizational responsibilities. Agent IDs shown below are the configured/conventional IDs currently documented for known agents; the Kaixin Transport agents are documented as existing team members; live runtime presence and connectivity should still be verified separately.
 
 ---
 
@@ -106,19 +106,19 @@ June (publishing and social media operations)
 
 **Business / Content Niche:** Uber-style van rental and travel tourism, featuring a branded avatar/vlogger-driver who showcases Luzon tourist destinations and promotes Kaixin Transport's van rental services.
 
-**Team Status:** Planning stage. The Kaixin Transport Facebook Page already exists; the dedicated content-production team and workflow are still being planned.
+**Team Status:** Existing team. Ethan, Axel, and Kyle are established members of the Kaixin Transport team.
 
 | Agent | Agent ID | Status | Official Role | Primary Responsibilities |
 | :--- | :--- | :--- | :--- | :--- |
-| **Ethan** | `ethan` | **Planned** | **Scriptwriter** | Writes scripts for the Kaixin Transport niche, including Luzon destination features, travel storytelling, van-rental promotions, and avatar/vlogger-driver video concepts. |
-| **Axel** | `axel` | **Planned** | **Video Editor** | Edits and produces Kaixin Transport videos, including avatar/vlogger-driver content, destination features, and promotional videos. |
-| **Kyle** | `kyle` | **Existing in OpenClaw** | **Social Media, Publishing & Marketing Manager** | Publishes approved content on the Kaixin Transport Facebook Page; looks for and attracts potential passengers and rental clients; monitors and answers comments; responds to Facebook DMs and inquiries; handles initial customer engagement and helps convert inquiries into potential bookings. Kyle also supports existing van-rental customer-service and reservation inquiries. |
+| **Ethan** | `ethan` | **Existing** | **Scriptwriter** | Writes scripts for the Kaixin Transport niche, including Luzon destination features, travel storytelling, van-rental promotions, and avatar/vlogger-driver video concepts. |
+| **Axel** | `axel` | **Existing** | **Video Editor** | Edits and produces Kaixin Transport videos, including avatar/vlogger-driver content, destination features, and promotional videos. |
+| **Kyle** | `kyle` | **Existing** | **Social Media, Publishing & Marketing Manager** | Publishes approved content on the Kaixin Transport Facebook Page; looks for and attracts potential passengers and rental clients; monitors and answers comments; responds to Facebook DMs and inquiries; handles initial customer engagement and helps convert inquiries into potential bookings. Kyle also supports existing van-rental customer-service and reservation inquiries. |
 
-**Planned content workflow:** Ethan (scriptwriting) → Axel (video editing/production) → Kyle (publishing, audience engagement, lead generation, comments and DM inquiries).
+**Kaixin content workflow:** Ethan (scriptwriting) → Axel (video editing/production) → Kyle (publishing, audience engagement, lead generation, comments and DM inquiries).
 
 **Business concept:** Kaixin Transport offers Uber-style van rental with a driver. Content will use a branded avatar/vlogger-driver to feature Luzon tourism destinations and introduce potential passengers to the service.
 
-**Runtime note:** Kyle already exists in OpenClaw. Ethan and Axel are planned team members; this documentation does not claim that their agents or the complete Kaixin content workflow are already deployed or production-ready.
+**Team note:** Ethan, Axel, and Kyle are existing Kaixin Transport team members. Their responsibilities and handoffs are documented above; live runtime availability should be checked in OpenClaw.
 
 ### Discord agent routing
 
