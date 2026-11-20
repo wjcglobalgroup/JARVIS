@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 echo "=============================================================="
-echo "Installing WJC GLOBAL GROUP — JARVIS COMMAND CENTER"
+echo "Installing WJC GLOBAL — JARVIS COMMAND CENTER"
 echo "=============================================================="
 
 if ! command -v python3 >/dev/null 2>&1; then
