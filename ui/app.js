@@ -1,5 +1,5 @@
 /*
-   WJC GLOBAL GROUP — JARVIS COMMAND CENTER
+   WJC GLOBAL — JARVIS COMMAND CENTER
    OpenClaw Gateway Native Frontend.
 */
 
