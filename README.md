@@ -119,7 +119,7 @@ June (publishing and social media operations)
 
 ### Discord agent routing
 
-The sanitized OpenClaw configuration snapshot on the `master` branch defines 11 agents and 11 Discord accounts, with 22 explicit route bindings: one Discord account-ID match and one channel-peer match for each agent. All bindings target configured agent IDs, every configured Discord account has an account route, and the saved snapshot contains no duplicate account or channel-peer matches. This validates the stored routing map only; it does not confirm live bot connectivity, Discord permissions, or end-to-end message delivery.
+The active OpenClaw Gateway owns Discord account bindings and agent routing; those runtime configuration files are not included in this dashboard repository. After removing an agent from the organization, remove its agent entry and associated Discord account and route bindings from the active OpenClaw configuration as a separate deployment step. This repository filters Ethan (`ethan`) and Axel (`axel`) from the dashboard agent directory; that UI change does not delete their live OpenClaw agent definitions or Discord routes.
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
