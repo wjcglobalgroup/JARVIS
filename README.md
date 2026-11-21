@@ -111,13 +111,13 @@ June (publishing and social media operations)
 | :--- | :--- | :--- | :--- | :--- |
 | **Ethan** | `ethan` | **Existing** | **Scriptwriter** | Writes scripts for the Kaixin Transport niche, including Luzon destination features, travel storytelling, van-rental promotions, and avatar/vlogger-driver video concepts. |
 | **Axel** | `axel` | **Existing** | **Video Editor** | Edits and produces Kaixin Transport videos, including avatar/vlogger-driver content, destination features, and promotional videos. |
-| **Kyle** | `kyle` | **Existing** | **Social Media, Publishing & Marketing Manager** | Publishes approved content on the Kaixin Transport Facebook Page; looks for and attracts potential passengers and rental clients; monitors and answers comments; responds to Facebook DMs and inquiries; handles initial customer engagement and helps convert inquiries into potential bookings. Kyle also supports existing van-rental customer-service and reservation inquiries. |
+| **Kyle** | `kyle` | **Existing** | **Social Media Manager & Customer Support** | Manages the Kaixin Transport Facebook Page; monitors and responds to comments and Facebook DMs; answers van-rental and travel inquiries; qualifies potential customers and booking leads; maintains customer engagement; prepares content for manual publishing; and reports inquiries and potential bookings. Kyle does not autonomously publish or schedule posts. |
 
-**Kaixin content workflow:** Ethan (scriptwriting) → Axel (video editing/production) → Kyle (publishing, audience engagement, lead generation, comments and DM inquiries).
+**Kaixin content workflow:** Ethan (scriptwriting) → Axel (video editing/production) → Kyle (social media management, customer support, audience engagement, lead qualification, and content preparation). Posts are published manually by Willy or another human explicitly authorized by him.
 
 **Business concept:** Kaixin Transport offers Uber-style van rental with a driver. Content will use a branded avatar/vlogger-driver to feature Luzon tourism destinations and introduce potential passengers to the service.
 
-**Team note:** Ethan, Axel, and Kyle are existing Kaixin Transport team members. Their responsibilities and handoffs are documented above; live runtime availability should be checked in OpenClaw.
+**Team note:** Ethan, Axel, and Kyle are existing Kaixin Transport team members. Ethan owns scripts, Axel owns video production, and Kyle owns social media management and customer support. Content publishing remains a manual human action; no agent may autonomously publish or schedule posts. Live runtime availability should be checked in OpenClaw.
 
 ### Discord agent routing
 
