@@ -549,7 +549,7 @@ function loadAgentsGrid() {
     tech: ['coddy'],
     stz: ['vera', 'vortex', 'moddy'],
     ofw: ['nova', 'dave', 'june'],
-    kaixin: ['ethan', 'axel', 'kyle'],
+    kaixin: ['kyle'],
     trading: ['marco', 'sniper'],
   };
 
